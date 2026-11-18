@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import QRCode from "qrcode";
-import { ORDER_BUMPS, PRODUTO_PRINCIPAL, itensDoPedido, totalCentavos, formatarReais, cpfValido } from "@/lib/checkout-config";
+import { BANNER_CHECKOUT, ORDER_BUMPS, PRODUTO_PRINCIPAL, itensDoPedido, totalCentavos, formatarReais, cpfValido } from "@/lib/checkout-config";
 import { criarPix, statusPix } from "@/lib/fruitfy.functions";
 
 export const Route = createFileRoute("/checkout")({
@@ -90,6 +90,7 @@ function Checkout() {
 
   return (
     <main className="ck">
+      <img className="ck__banner" src={BANNER_CHECKOUT.imagem} alt={BANNER_CHECKOUT.alt} width={1024} height={357} />
       <p className="ck__topo">Massagem Alivimediato · Checkout seguro</p>
       <div className="ck__wrap">
         {pago ? (
@@ -123,9 +124,14 @@ function Checkout() {
                 <input type="checkbox" checked={bumps.includes(b.key)} onChange={() => alternar(b.key)} />
                 <img src={b.imagem} alt="" width={64} height={64} loading="lazy" />
                 <span>
-                  <span className="ck__selo">Oferta única</span>
+                  <span className="ck__selo">{b.selo ?? "Oferta única"}</span>
                   <strong>{b.nome}</strong>
                   <small>{b.descricao}</small>
+                  {b.de ? (
+                    <span className="ck__de">
+                      de <s>{formatarReais(b.de)}</s> por <strong>{formatarReais(b.preco)}</strong>
+                    </span>
+                  ) : null}
                   <em>Sim, quero por apenas {formatarReais(b.preco)}</em>
                 </span>
               </label>

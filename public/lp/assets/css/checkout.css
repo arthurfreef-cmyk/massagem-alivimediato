@@ -32,3 +32,31 @@
 .ck__pix textarea { width: 100%; font: 13px/1.4 monospace; padding: 10px; border: 2px solid var(--areia-forte); border-radius: var(--raio-sm); background: var(--creme); resize: none; }
 .ck__ok { font-family: var(--serifa); font-size: 26px; color: var(--verde); }
 .ck__linha span:last-child, .ck__bump em { white-space: nowrap; }
+.ck__banner { display: block; width: 100%; max-width: 980px; margin: 0 auto 12px; height: auto; border-radius: var(--raio-sm); }
+.ck__de { display: block; font-size: 12.5px; color: var(--tinta-suave); margin-top: 4px; }
+.ck__de s { color: #B0483F; }
+.ck__de strong { color: var(--verde); }
+@media (max-width: 640px) {
+  .ck { padding: 10px 9px 28px; }
+  .ck__banner { border-radius: 10px; margin-bottom: 9px; }
+  .ck__topo { font-size: 12.5px; margin-bottom: 10px; }
+  .ck__box { padding: 15px 12px; border-radius: 14px; }
+  .ck__h { font-size: 18.5px; margin-bottom: 10px; }
+  .ck__campo { margin-bottom: 9px; font-size: 13px; }
+  .ck__campo input { padding: 10px 11px; }
+  .ck__bump { padding: 9px; gap: 9px; margin-bottom: 8px; border-radius: 12px; }
+  .ck__bump img { width: 46px; height: 46px; border-radius: 8px; }
+  .ck__bump strong { font-size: 13px; }
+  .ck__bump small { font-size: 11.5px; margin: 2px 0; }
+  .ck__bump em { font-size: 12.5px; }
+  .ck__selo { font-size: 10px; padding: 2px 7px; margin-bottom: 4px; }
+  .ck__de { font-size: 11.5px; }
+  .ck__btn { padding: 14px; font-size: 16.5px; margin-top: 10px; }
+  .ck__prod { gap: 10px; margin-bottom: 10px; }
+  .ck__prod img { width: 64px; height: 64px; }
+  .ck__linha { font-size: 13px; padding: 5px 0; }
+  .ck__total { font-size: 17px; padding-top: 9px; }
+  .ck__pix img { width: 180px; height: 180px; }
+  .ck__pix textarea { font-size: 11.5px; }
+  .ck__ok { font-size: 21px; }
+}
