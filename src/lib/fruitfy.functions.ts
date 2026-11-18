@@ -19,9 +19,9 @@ function procurar(obj: unknown, out: { pix?: string; qr?: string; id?: string; s
   if (!obj || typeof obj !== "object") return out;
   for (const [k, v] of Object.entries(obj as Record<string, unknown>)) {
     if (typeof v === "string") {
-      if (!out.pix && v.startsWith("000201")) out.pix = v;
+      if (!out.pix && (v.trim().startsWith("000201") || (/^(pix|pix_code|pix_copy_paste|brcode|copy_paste|payload)$/i.test(k) && v.trim().length > 30))) out.pix = v.trim();
       else if (!out.qr && (v.startsWith("data:image") || (/qr/i.test(k) && /^https?:|^[A-Za-z0-9+/=]{200,}$/.test(v)))) out.qr = v.startsWith("http") || v.startsWith("data:") ? v : `data:image/png;base64,${v}`;
-      else if (!out.id && /^(id|order_id|uuid)$/i.test(k)) out.id = v;
+      else if (!out.id && /^(id|order_id|uuid|order_uuid)$/i.test(k)) out.id = v;
       else if (!out.status && /status/i.test(k)) out.status = v.toLowerCase();
     } else if (typeof v === "number" && !out.id && /^(id|order_id)$/i.test(k)) out.id = String(v);
     else procurar(v, out);
@@ -74,7 +74,7 @@ export const criarPix = createServerFn({ method: "POST" })
 export const statusPix = createServerFn({ method: "POST" })
   .inputValidator((d) => z.object({ id: z.string().min(1).max(100) }).parse(d))
   .handler(async ({ data }) => {
-    const res = await fetch(`${BASE}/order/${encodeURIComponent(data.id)}`, { headers: headers() });
+    const res = await fetch(`${BASE}/api/order/${encodeURIComponent(data.id)}`, { headers: headers() });
     if (!res.ok) return { pago: false };
     const r = procurar(await res.json().catch(() => null), {});
     return { pago: !!r.status && /(paid|pago|approved|aprovad|complete)/.test(r.status) };
