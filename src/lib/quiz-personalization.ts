@@ -47,7 +47,7 @@ export function getQuizProfile(answers: string[]) {
       `Para o objetivo “${objetivo.toLowerCase()}”, consulte as orientações ilustradas e respeite seu conforto. Não force movimentos nem pressione áreas doloridas.`,
     ],
     cuidado,
-    aviso: cuidado ? "Você relatou dor intensa ou frequente: procure avaliação profissional antes de experimentar massagens. Este quiz não identifica a causa da dor." : "Não deixe o desconforto decidir o ritmo do seu dia. Veja agora as técnicas ilustradas para aprender onde tocar, como tocar e qual pressão usar — e comece respeitando os limites do seu corpo.",
+    aviso: cuidado ? "Você relatou dor intensa ou frequente. Nas ilustrações, priorize orientações suaves e nunca force movimentos ou pressão. Interrompa se a dor aumentar." : "Não deixe o desconforto decidir o ritmo do seu dia. Veja agora as técnicas ilustradas para aprender onde tocar, como tocar e qual pressão usar — e comece respeitando os limites do seu corpo.",
   };
 }
 
