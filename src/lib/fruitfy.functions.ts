@@ -46,15 +46,16 @@ export const criarPix = createServerFn({ method: "POST" })
       console.error("Fruitfy: FRUITFY_API_TOKEN ou FRUITFY_STORE_ID não configurado no servidor.");
       return { ok: false as const, erro: "Pagamento temporariamente indisponível. Tente novamente mais tarde." };
     }
-    const res = await fetch(`${BASE}/pix/charge`, {
-      method: "POST",
-      headers: headers(),
-      body: JSON.stringify({
-        name: data.nome, email: data.email, phone: `55${data.telefone}`, cpf: data.cpf,
-        amount: itens.reduce((total, item) => total + item.preco, 0),
-        items: itens.map((i) => ({ id: i.fruitfyId, value: i.preco, quantity: 1 })),
-      }),
+    const body = JSON.stringify({
+      name: data.nome, email: data.email, phone: `55${data.telefone}`, cpf: data.cpf,
+      amount: itens.reduce((total, item) => total + item.preco, 0),
+      items: itens.map((i) => ({ id: i.fruitfyId, value: i.preco, quantity: 1 })),
     });
+    let res = await fetch(`${BASE}/pix/charge`, { method: "POST", headers: headers(), body });
+    // A documentação contém exemplos com e sem /api; usa a rota alternativa apenas em 404.
+    if (res.status === 404) {
+      res = await fetch(`${BASE}/api/pix/charge`, { method: "POST", headers: headers(), body });
+    }
     const json = await res.json().catch(() => null);
     if (!res.ok || (json && typeof json === "object" && "success" in json && (json as { success?: boolean }).success === false)) {
       console.error("Fruitfy pix/charge", res.status, JSON.stringify(json));
