@@ -56,7 +56,7 @@ function Index() {
               </h1>
               <p className="v4-hero__sub">
                 <strong className="v4-hero__promessa">
-                  <span>Alivie a dor com mais de 165 Massagens Ilustradas</span>
+                  <span>Alivie a dor que te atormenta imediatamente com mais de 165 Massagens Ilustradas</span>
                 </strong>
                 <span className="v4-hero__resto">
                   para costas, pescoço, pernas e todas as partes do corpo, mostrando onde tocar, como tocar e qual pressão usar
