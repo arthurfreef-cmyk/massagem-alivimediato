@@ -29,8 +29,8 @@ export const Route = createFileRoute("/")({
     ],
     scripts: [
       { children: "window.dataLayer = window.dataLayer || [];" },
-      { src: "/lp/assets/js/env-config.js" },
-      { src: "/lp/assets/js/gtm-loader.js" },
+      { src: "/lp/assets/js/env-config.js", defer: true },
+      { src: "/lp/assets/js/gtm-loader.js", defer: true },
     ],
   }),
   component: Index,

@@ -26,3 +26,18 @@
 .v4-oferta__salvacao { max-width: 620px; margin: -8px auto 28px; text-align: center; color: var(--mata-texto); font-size: 18px; line-height: 1.5; }
 .v4-oferta__salvacao strong { color: var(--mata-realce); }
 @media (max-width: 560px) { .qz { padding: 20px 16px; } .qz__opcoes { grid-template-columns: 1fr; } .qz__opcoes--escala { grid-template-columns: repeat(4, 1fr); } }
+
+/* Seções mais compactas */
+.v4-sec { padding-block: clamp(36px, 5.5vw, 64px); }
+.v4-hero { padding-block: 24px clamp(32px, 5vw, 56px); }
+@media (min-width: 900px) { .v4-hero { padding-top: 36px; } }
+.v4-titulo { margin-bottom: clamp(18px, 2.5vw, 28px); }
+.v4-sec img { content-visibility: auto; }
+
+/* Benefícios na oferta */
+.v4-oferta__beneficios { list-style: none; padding: 0; margin: 0 auto 26px; max-width: 620px; display: grid; gap: 10px; grid-template-columns: 1fr; }
+@media (min-width: 640px) { .v4-oferta__beneficios { grid-template-columns: 1fr 1fr; } }
+.v4-oferta__beneficios li { display: flex; gap: 10px; align-items: flex-start; text-align: left; color: var(--mata-texto); font-size: 15.5px; line-height: 1.45; background: color-mix(in srgb, var(--creme) 6%, transparent); border: 1px solid color-mix(in srgb, var(--creme) 14%, transparent); border-radius: var(--raio-sm); padding: 12px 14px; }
+.v4-oferta__beneficios strong { color: var(--creme); }
+.v4-oferta__beneficios .v4-ok { flex: none; background: var(--mel); color: var(--tinta); }
+@media (max-width: 639px) { .v4-oferta__beneficios { gap: 8px; } .v4-oferta__beneficios li { padding: 9px 12px; font-size: 14.5px; } }
