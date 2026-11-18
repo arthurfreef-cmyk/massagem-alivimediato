@@ -2,7 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { itensDoPedido, ORDER_BUMPS, cpfValido } from "./checkout-config";
 
-const BASE = "https://api.fruitfy.io/api";
+const BASE = "https://api.fruitfy.io";
 
 function headers() {
   return {
@@ -42,18 +42,26 @@ export const criarPix = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const itens = itensDoPedido(data.bumps);
     if (itens.some((i) => !i.fruitfyId)) return { ok: false as const, erro: "Checkout ainda não configurado com os produtos da Fruitfy." };
+    if (!process.env["FRUITFY_API_TOKEN"] || !process.env["FRUITFY_STORE_ID"]) {
+      console.error("Fruitfy: FRUITFY_API_TOKEN ou FRUITFY_STORE_ID não configurado no servidor.");
+      return { ok: false as const, erro: "Pagamento temporariamente indisponível. Tente novamente mais tarde." };
+    }
     const res = await fetch(`${BASE}/pix/charge`, {
       method: "POST",
       headers: headers(),
       body: JSON.stringify({
         name: data.nome, email: data.email, phone: data.telefone, cpf: data.cpf,
+        amount: itens.reduce((total, item) => total + item.preco, 0),
         items: itens.map((i) => ({ id: i.fruitfyId, value: i.preco, quantity: 1 })),
       }),
     });
     const json = await res.json().catch(() => null);
-    if (!res.ok) {
+    if (!res.ok || (json && typeof json === "object" && "success" in json && (json as { success?: boolean }).success === false)) {
       console.error("Fruitfy pix/charge", res.status, JSON.stringify(json));
-      return { ok: false as const, erro: "Não foi possível gerar o Pix. Confira seus dados e tente de novo." };
+      const mensagem = json && typeof json === "object"
+        ? String((json as { message?: string }).message ?? "")
+        : "";
+      return { ok: false as const, erro: mensagem || "Não foi possível gerar o Pix. Confira seus dados e tente de novo." };
     }
     const r = procurar(json, {});
     if (!r.pix) {
