@@ -1,10 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
-import bodyHtml from "@/lp/body.html?raw";
+import spriteHtml from "@/lp/sprite.html?raw";
+import mainHtml from "@/lp/main.html?raw";
+import footerHtml from "@/lp/footer.html?raw";
+import { HeroQuiz } from "@/components/HeroQuiz";
 
-const title = "Manual Ilustrado para Alívio da Dor com Massagem";
+const title = "Manual com 165 Massagens Ilustradas para Alívio da Dor";
 const description =
-  "Antes do próximo remédio, experimente usar as mãos: mais de 70 massagens ilustradas que mostram onde tocar, como tocar e qual pressão usar. Por Ana Martha, fisioterapeuta.";
+  "Faça o diagnóstico gratuito e descubra como aliviar dores nas costas, pescoço, pernas e todo o corpo com mais de 165 massagens ilustradas. Por Ana Martha, fisioterapeuta.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -13,7 +16,7 @@ export const Route = createFileRoute("/")({
       { name: "description", content: description },
       { name: "theme-color", content: "#FAF8F2" },
       { property: "og:title", content: "Antes do próximo remédio, experimente usar as mãos" },
-      { property: "og:description", content: "Mais de 70 massagens ilustradas e 5 bônus por R$27." },
+      { property: "og:description", content: "Mais de 165 massagens ilustradas para todo o corpo e 5 bônus por R$27." },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "pt_BR" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -22,6 +25,7 @@ export const Route = createFileRoute("/")({
       { rel: "preconnect", href: "https://pcm.topcorpus.com.br", crossOrigin: "anonymous" },
       { rel: "preload", as: "font", type: "font/woff2", href: "/lp/assets/fonts/fraunces-latin.woff2", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: "/lp/assets/css/v4.css" },
+      { rel: "stylesheet", href: "/lp/assets/css/quiz.css" },
     ],
     scripts: [
       { children: "window.dataLayer = window.dataLayer || [];" },
@@ -40,5 +44,37 @@ function Index() {
     s.setAttribute("data-lp-manual", "1");
     document.body.appendChild(s);
   }, []);
-  return <div dangerouslySetInnerHTML={{ __html: bodyHtml }} />;
+  return (
+    <>
+      <div dangerouslySetInnerHTML={{ __html: spriteHtml }} />
+      <main>
+        <section className="v4-hero" aria-labelledby="hero-title">
+          <div className="v4-wrap v4-hero__grade">
+            <div className="v4-hero__copy">
+              <h1 className="v4-hero__titulo" id="hero-title">
+                Antes do próximo remédio, <em>experimente usar as mãos</em>
+              </h1>
+              <p className="v4-hero__sub">
+                <strong className="v4-hero__promessa">
+                  <span>Alivie a dor com mais de 165 Massagens Ilustradas</span>
+                </strong>
+                <span className="v4-hero__resto">
+                  para costas, pescoço, pernas e todas as partes do corpo, mostrando onde tocar, como tocar e qual pressão usar
+                </span>
+              </p>
+            </div>
+            <HeroQuiz />
+            <div className="v4-hero__acao">
+              <ul className="v4-oks">
+                <li><span className="v4-ok" aria-hidden="true"><svg width="14" height="14"><use href="#i-check" /></svg></span>Mesmo que você nunca tenha feito massagem</li>
+                <li><span className="v4-ok" aria-hidden="true"><svg width="14" height="14"><use href="#i-check" /></svg></span>Criado por uma fisioterapeuta com 20 anos de prática</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+        <div style={{ display: "contents" }} dangerouslySetInnerHTML={{ __html: mainHtml }} />
+      </main>
+      <div style={{ display: "contents" }} dangerouslySetInnerHTML={{ __html: footerHtml }} />
+    </>
+  );
 }
