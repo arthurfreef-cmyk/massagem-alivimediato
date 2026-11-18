@@ -95,7 +95,7 @@ export function HeroQuiz() {
           </div>
           <p className="qz__dica">{perfil.aviso}</p>
           <Button variant="ghost" className="v4-btn qz__btn h-auto whitespace-normal" type="button" onClick={irOferta}>
-            <span>Ver massagens para {perfil.regiao.toLowerCase()}</span>
+            <span>QUERO ALIVIAR MINHAS DORES AGORA</span>
             <svg width="20" height="20" aria-hidden="true"><use href="#i-seta" /></svg>
           </Button>
         </div>
