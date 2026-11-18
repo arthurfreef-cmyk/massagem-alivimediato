@@ -59,10 +59,18 @@ export const criarPix = createServerFn({ method: "POST" })
     const json = await res.json().catch(() => null);
     if (!res.ok || (json && typeof json === "object" && "success" in json && (json as { success?: boolean }).success === false)) {
       console.error("Fruitfy pix/charge", res.status, JSON.stringify(json));
-      const mensagem = json && typeof json === "object"
-        ? String((json as { message?: string }).message ?? "")
-        : "";
-      return { ok: false as const, erro: mensagem || "Não foi possível gerar o Pix. Confira seus dados e tente de novo." };
+      const resposta = json && typeof json === "object" ? json as Record<string, unknown> : {};
+      const dadosResposta = resposta.data && typeof resposta.data === "object" ? resposta.data as Record<string, unknown> : {};
+      const erros = resposta.errors ?? dadosResposta.errors ?? resposta.error ?? dadosResposta.error;
+      const mensagemBase = resposta.message ?? dadosResposta.message;
+      const detalheErros = Array.isArray(erros)
+        ? erros.map((e) => typeof e === "string" ? e : JSON.stringify(e)).join(" | ")
+        : erros && typeof erros === "object"
+          ? Object.entries(erros as Record<string, unknown>).map(([campo, detalhe]) => `${campo}: ${Array.isArray(detalhe) ? detalhe.join(", ") : String(detalhe)}`).join(" | ")
+          : typeof erros === "string" ? erros : "";
+      const mensagem = [mensagemBase, detalheErros].filter(Boolean).map(String).join(" — ");
+      console.error("Detalhes validação Fruitfy:", JSON.stringify(json));
+      return { ok: false as const, erro: mensagem || `Fruitfy recusou a cobrança (HTTP ${res.status}). Confira os dados e tente novamente.` };
     }
     const r = procurar(json, {});
     if (!r.pix) {
