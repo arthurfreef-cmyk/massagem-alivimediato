@@ -3,7 +3,7 @@ export type CheckoutItem = { key: string; fruitfyId: string; nome: string; descr
 
 export const PRODUTO_PRINCIPAL: CheckoutItem = {
   key: "manual",
-  fruitfyId: "",
+  fruitfyId: "a34174f1-35c1-49cf-8e71-82cbf6a49d3a",
   nome: "Manual com 165 Massagens Ilustradas + 5 Bônus",
   descricao: "Massagens para costas, pescoço, pernas e todo o corpo, com acesso imediato.",
   imagem: "/lp/assets/img/mockup-oferta.webp",
@@ -11,9 +11,9 @@ export const PRODUTO_PRINCIPAL: CheckoutItem = {
 };
 
 export const ORDER_BUMPS: CheckoutItem[] = [
-  { key: "sono", fruitfyId: "", nome: "Automassagem para Dormir em 10 Minutos", descricao: "Sequência ilustrada para soltar o corpo antes de deitar e acordar sem rigidez.", imagem: "/lp/assets/img/maos-costas.webp", preco: 590 },
-  { key: "cabeca", fruitfyId: "", nome: "Protocolo Alívio da Dor de Cabeça", descricao: "Pontos da cabeça, nuca e rosto para aliviar a tensão e a enxaqueca em minutos.", imagem: "/lp/assets/img/ana-maos.webp", preco: 590 },
-  { key: "pes", fruitfyId: "", nome: "Massagem para Pés e Pernas Cansadas", descricao: "Técnicas para inchaço, peso nas pernas e pés doloridos no fim do dia.", imagem: "/lp/assets/img/bonus-3-reflexologia.webp", preco: 590 },
+  { key: "sono", fruitfyId: "a34174f1-35c1-49cf-8e71-82cbf6a49d3a", nome: "Automassagem para Dormir em 10 Minutos", descricao: "Sequência ilustrada para soltar o corpo antes de deitar e acordar sem rigidez.", imagem: "/lp/assets/img/maos-costas.webp", preco: 590 },
+  { key: "cabeca", fruitfyId: "a34174f1-35c1-49cf-8e71-82cbf6a49d3a", nome: "Protocolo Alívio da Dor de Cabeça", descricao: "Pontos da cabeça, nuca e rosto para aliviar a tensão e a enxaqueca em minutos.", imagem: "/lp/assets/img/ana-maos.webp", preco: 590 },
+  { key: "pes", fruitfyId: "a34174f1-35c1-49cf-8e71-82cbf6a49d3a", nome: "Massagem para Pés e Pernas Cansadas", descricao: "Técnicas para inchaço, peso nas pernas e pés doloridos no fim do dia.", imagem: "/lp/assets/img/bonus-3-reflexologia.webp", preco: 590 },
 ];
 
 export function itensDoPedido(bumpsSelecionados: string[]): CheckoutItem[] {
