@@ -24,6 +24,7 @@ export function HeroQuiz() {
   };
 
   const irOferta = () => document.getElementById("oferta")?.scrollIntoView({ behavior: "smooth" });
+  const continuarSabendoMais = () => document.getElementById("dores-title")?.scrollIntoView({ behavior: "smooth", block: "start" });
   const pontos = Math.min(Math.max(etapa, 0), total) * 20;
   const voltar = () => {
     setResp((r) => r.slice(0, etapa - 1));
@@ -98,6 +99,9 @@ export function HeroQuiz() {
           <Button variant="ghost" className="v4-btn qz__btn h-auto whitespace-normal" type="button" onClick={irOferta}>
             <span>QUERO ALIVIAR MINHAS DORES AGORA</span>
             <svg width="20" height="20" aria-hidden="true"><use href="#i-seta" /></svg>
+          </Button>
+          <Button variant="ghost" className="qz__voltar h-auto" type="button" onClick={continuarSabendoMais}>
+            CONTINUAR SABENDO MAIS
           </Button>
         </div>
       )}
