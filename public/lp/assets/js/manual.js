@@ -20,24 +20,10 @@
   /* =======================================================================
      DESTINO DA COMPRA
 
-     Desde 29/10/2026 o botão da oferta passa pelo funil do SF
-     (sf.topcorpus.com.br), no sfunnel 119, o da v4. A lt-v4-27 e a
-     lt-v4-v2 usam o mesmo, então as vendas das duas cores da v4 caem
-     juntas no funil, separadas das outras páginas de 27 (lt-v1-27-sf 30,
-     lt-v2-27 31, lt-v3-27 46). Para separar as duas cores, é criar um
-     segundo sfunnel no SF e trocar a linha abaixo em uma delas.
-
-     Antes (27 a 29/10/2026) o botão ia direto para a Hotmart, com o link
-     da lt-v1-27. O 119 redireciona para a mesma oferta, já com o
-     &checkoutMode=10: pay.hotmart.com/W95360090D?off=9z1ywsjs
-     &checkoutMode=10&xcod=0&external_code=0 (conferido em 29/10/2026).
+     O CTA do bloco de compras direciona para o checkout próprio criado
+     no projeto Lovable, na rota /checkout.
      ======================================================================= */
-  /* V4 verde VSL (lt-v4-verde-vsl): desde 11/11/2026 tem funil próprio,
-     o sfunnel 205, para as vendas desta página não se misturarem com as
-     da lt-v4-27 e da lt-v4-v2 (que seguem no 119). O 205 redireciona para
-     a mesma oferta de R$27: pay.hotmart.com/W95360090D?off=9z1ywsjs
-     &checkoutMode=10&xcod=0&external_code=0 (conferido em 11/11/2026). */
-  var CHECKOUT_URL = "https://sf.topcorpus.com.br/sf/?sfunnel=205";
+  var CHECKOUT_URL = "/checkout";
 
   /* =======================================================================
      DESTINO DO CTA DA OFERTA
