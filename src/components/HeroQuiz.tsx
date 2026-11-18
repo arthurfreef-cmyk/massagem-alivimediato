@@ -45,8 +45,8 @@ export function HeroQuiz() {
       {etapa === -1 && (
         <div className="qz__intro">
           <p className="qz__selo">Diagnóstico inicial · 1 minuto</p>
-          <h2 className="qz__pergunta">Faça seu diagnóstico inicial de desconforto</h2>
-          <p className="qz__dica">Responda 5 perguntas e receba uma análise personalizada da região, frequência e intensidade do desconforto que você relatou.</p>
+          <h2 className="qz__pergunta">Descubra o que seu desconforto revela sobre você</h2>
+          <p className="qz__dica">Responda a 5 perguntas rápidas e receba uma avaliação personalizada das regiões que mais incomodam, da intensidade e da frequência dos sintomas — com orientações para encontrar as massagens mais adequadas ao seu perfil.</p>
           <Button variant="ghost" className="v4-btn qz__btn h-auto whitespace-normal" type="button" onClick={() => setEtapa(0)}>
             <span>Iniciar meu diagnóstico</span>
             <svg width="20" height="20" aria-hidden="true"><use href="#i-seta" /></svg>
