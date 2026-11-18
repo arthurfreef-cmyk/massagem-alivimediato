@@ -95,7 +95,7 @@ export function HeroQuiz() {
             <div className="qz__cadeado">
               <span aria-hidden="true">🔒</span>
               <strong>Seu diagnóstico completo está pronto</strong>
-              <small>Libere junto com o Manual e as massagens certas para a sua dor</small>
+              <small>Libere junto com o Manual e as massagens certas para a sua dor — inclusive técnicas para aplicar em você mesma(o)</small>
             </div>
           </div>
           <button className="v4-btn qz__btn" type="button" onClick={irOferta}>
