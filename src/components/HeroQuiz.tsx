@@ -44,9 +44,9 @@ export function HeroQuiz() {
 
       {etapa === -1 && (
         <div className="qz__intro">
-          <p className="qz__selo">Perfil gratuito · 1 minuto</p>
-          <h2 className="qz__pergunta">Qual é o seu perfil de desconforto?</h2>
-          <p className="qz__dica">Responda 5 perguntas rápidas e receba o seu perfil personalizado.</p>
+          <p className="qz__selo">Diagnóstico inicial · 1 minuto</p>
+          <h2 className="qz__pergunta">Faça seu diagnóstico inicial de desconforto</h2>
+          <p className="qz__dica">Responda 5 perguntas e receba uma análise personalizada da região, frequência e intensidade do desconforto que você relatou.</p>
           <Button variant="ghost" className="v4-btn qz__btn h-auto whitespace-normal" type="button" onClick={() => setEtapa(0)}>
             <span>Começar meu quiz</span>
             <svg width="20" height="20" aria-hidden="true"><use href="#i-seta" /></svg>
@@ -71,7 +71,7 @@ export function HeroQuiz() {
 
       {etapa === total && (
         <div className="qz__card">
-          <h2 className="qz__pergunta">Analisando suas respostas…</h2>
+          <h2 className="qz__pergunta">Concluindo seu diagnóstico inicial…</h2>
           <p className="qz__dica">Organizando seu perfil para {perfil.regiao.toLowerCase()}</p>
           <div className="qz__barra qz__barra--analise"><span style={{ width: `${analise}%` }} /></div>
           <p className="qz__pct">{analise}%</p>
@@ -80,9 +80,9 @@ export function HeroQuiz() {
 
       {etapa === total + 1 && (
         <div className="qz__card qz__resultado">
-          <p className="qz__selo">🏆 Perfil concluído · 100 pts</p>
-          <h2 className="qz__pergunta">Seu perfil: {perfil.regiao}</h2>
-          <p className="qz__dica">{perfil.resumo}<br />Seu objetivo: {perfil.objetivo.toLowerCase()}.</p>
+          <p className="qz__selo">🏆 Diagnóstico inicial concluído · 100 pts</p>
+          <h2 className="qz__pergunta">Seu diagnóstico: {perfil.regiao}</h2>
+          <p className="qz__dica">{perfil.resumo}<br />Seu objetivo: {perfil.objetivo.toLowerCase()}.</p>\n          <p className="qz__dica">Esta análise organiza as informações que você forneceu e não identifica doenças nem substitui um diagnóstico médico.</p>
           <div className="qz__borrado">
             <div className="qz__borrado-texto" aria-hidden="true">
               {perfil.detalhes.map((texto) => <p key={texto}>{texto}</p>)}
