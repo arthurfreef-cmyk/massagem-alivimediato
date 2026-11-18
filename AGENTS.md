@@ -28,3 +28,7 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+<!-- AGENT-MEMORY:BEGIN -->
+- Keep quiz branching and answer-derived profiles in a browser-safe pure module with regression tests so changes to early answers cannot retain an obsolete path.
+<!-- AGENT-MEMORY:END -->
