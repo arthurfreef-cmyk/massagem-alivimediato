@@ -1,0 +1,141 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { useEffect, useState } from "react";
+import QRCode from "qrcode";
+import { ORDER_BUMPS, PRODUTO_PRINCIPAL, itensDoPedido, totalCentavos, formatarReais, cpfValido } from "@/lib/checkout-config";
+import { criarPix, statusPix } from "@/lib/fruitfy.functions";
+
+export const Route = createFileRoute("/checkout")({
+  head: () => ({
+    meta: [
+      { title: "Checkout Pix — Massagem Alivimediato" },
+      { name: "description", content: "Finalize sua compra do Manual com 165 Massagens Ilustradas pagando com Pix." },
+      { name: "robots", content: "noindex" },
+      { property: "og:title", content: "Checkout — Massagem Alivimediato" },
+      { property: "og:description", content: "Pague com Pix e receba o acesso na hora." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+    links: [
+      { rel: "stylesheet", href: "/lp/assets/css/v4.css" },
+      { rel: "stylesheet", href: "/lp/assets/css/checkout.css" },
+    ],
+  }),
+  component: Checkout,
+});
+
+const so = (s: string) => s.replace(/\D/g, "");
+const mascCpf = (s: string) => so(s).slice(0, 11).replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+const mascTel = (s: string) => so(s).slice(0, 11).replace(/^(\d{2})(\d)/, "($1) $2").replace(/(\d{5})(\d{1,4})$/, "$1-$2");
+
+function Checkout() {
+  const gerar = useServerFn(criarPix);
+  const consultar = useServerFn(statusPix);
+  const [f, setF] = useState({ nome: "", email: "", telefone: "", cpf: "" });
+  const [bumps, setBumps] = useState<string[]>([]);
+  const [erro, setErro] = useState("");
+  const [carregando, setCarregando] = useState(false);
+  const [pix, setPix] = useState<{ pix: string; qr: string; id: string | null } | null>(null);
+  const [copiado, setCopiado] = useState(false);
+  const [pago, setPago] = useState(false);
+
+  useEffect(() => {
+    if (!pix?.id || pago) return;
+    const t = setInterval(async () => {
+      try { if ((await consultar({ data: { id: pix.id! } })).pago) setPago(true); } catch { /* tenta de novo */ }
+    }, 5000);
+    return () => clearInterval(t);
+  }, [pix, pago, consultar]);
+
+  const alternar = (k: string) => setBumps((b) => (b.includes(k) ? b.filter((x) => x !== k) : [...b, k]));
+
+  async function enviar(e: React.FormEvent) {
+    e.preventDefault();
+    setErro("");
+    if (f.nome.trim().split(/\s+/).length < 2) return setErro("Digite seu nome completo.");
+    if (!/^\S+@\S+\.\S+$/.test(f.email.trim())) return setErro("Digite um e-mail válido.");
+    if (so(f.telefone).length < 10) return setErro("Digite seu WhatsApp com DDD.");
+    if (!cpfValido(f.cpf)) return setErro("CPF inválido.");
+    setCarregando(true);
+    try {
+      const r = await gerar({ data: { nome: f.nome.trim(), email: f.email.trim(), telefone: so(f.telefone), cpf: so(f.cpf), bumps } });
+      if (!r.ok) return setErro(r.erro);
+      const qr = r.qr ?? (await QRCode.toDataURL(r.pix, { width: 460, margin: 1 }));
+      setPix({ pix: r.pix, qr, id: r.id });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch {
+      setErro("Não foi possível gerar o Pix. Tente de novo.");
+    } finally {
+      setCarregando(false);
+    }
+  }
+
+  const itens = itensDoPedido(bumps);
+  const total = totalCentavos(bumps);
+
+  const resumo = (
+    <aside className="ck__box ck__resumo">
+      <h2 className="ck__h">Resumo do pedido</h2>
+      <div className="ck__prod">
+        <img src={PRODUTO_PRINCIPAL.imagem} alt="Manual com 165 Massagens Ilustradas" width={92} height={92} />
+        <div><strong>{PRODUTO_PRINCIPAL.nome}</strong><br /><small>{PRODUTO_PRINCIPAL.descricao}</small></div>
+      </div>
+      {itens.map((i) => (
+        <div className="ck__linha" key={i.key}><span>{i.nome}</span><span>{formatarReais(i.preco)}</span></div>
+      ))}
+      <div className="ck__total"><span>Total</span><span>{formatarReais(total)}</span></div>
+      <p className="ck__seg">🔒 Pagamento seguro via Pix · Acesso imediato por e-mail</p>
+    </aside>
+  );
+
+  return (
+    <main className="ck">
+      <p className="ck__topo">Massagem Alivimediato · Checkout seguro</p>
+      <div className="ck__wrap">
+        {pago ? (
+          <section className="ck__box ck__pix">
+            <p className="ck__ok">Pagamento confirmado! 🎉</p>
+            <p>Enviamos o acesso para <strong>{f.email}</strong>. Confira também a caixa de spam.</p>
+          </section>
+        ) : pix ? (
+          <section className="ck__box ck__pix">
+            <h1 className="ck__h">Pague {formatarReais(total)} com Pix</h1>
+            <p>Abra o app do seu banco, escolha Pix e escaneie o código ou use o copia e cola.</p>
+            <img src={pix.qr} alt="QR Code do Pix" />
+            <textarea readOnly rows={4} value={pix.pix} aria-label="Código Pix copia e cola" />
+            <button type="button" className="ck__btn" onClick={async () => { await navigator.clipboard.writeText(pix.pix); setCopiado(true); setTimeout(() => setCopiado(false), 2500); }}>
+              {copiado ? "Código copiado ✓" : "Copiar código Pix"}
+            </button>
+            <p className="ck__seg">Assim que o pagamento for aprovado, o acesso chega no seu e-mail.</p>
+          </section>
+        ) : (
+          <form className="ck__box" onSubmit={enviar} noValidate>
+            <h1 className="ck__h">Seus dados</h1>
+            <label className="ck__campo">Nome completo<input autoComplete="name" value={f.nome} onChange={(e) => setF({ ...f, nome: e.target.value })} /></label>
+            <label className="ck__campo">E-mail (onde você recebe o acesso)<input type="email" autoComplete="email" value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} /></label>
+            <div className="ck__dois">
+              <label className="ck__campo">WhatsApp<input inputMode="tel" autoComplete="tel" value={f.telefone} onChange={(e) => setF({ ...f, telefone: mascTel(e.target.value) })} placeholder="(11) 99999-9999" /></label>
+              <label className="ck__campo">CPF<input inputMode="numeric" value={f.cpf} onChange={(e) => setF({ ...f, cpf: mascCpf(e.target.value) })} placeholder="000.000.000-00" /></label>
+            </div>
+            <h2 className="ck__h" style={{ marginTop: 10 }}>Aproveite também</h2>
+            {ORDER_BUMPS.map((b) => (
+              <label key={b.key} className={"ck__bump" + (bumps.includes(b.key) ? " is-on" : "")}>
+                <input type="checkbox" checked={bumps.includes(b.key)} onChange={() => alternar(b.key)} />
+                <img src={b.imagem} alt="" width={64} height={64} loading="lazy" />
+                <span>
+                  <span className="ck__selo">Oferta única</span>
+                  <strong>{b.nome}</strong>
+                  <small>{b.descricao}</small>
+                  <em>Sim, quero por apenas {formatarReais(b.preco)}</em>
+                </span>
+              </label>
+            ))}
+            {erro && <p className="ck__erro" role="alert">{erro}</p>}
+            <button className="ck__btn" disabled={carregando}>{carregando ? "Gerando Pix..." : `Gerar Pix de ${formatarReais(total)}`}</button>
+          </form>
+        )}
+        {resumo}
+      </div>
+    </main>
+  );
+}
