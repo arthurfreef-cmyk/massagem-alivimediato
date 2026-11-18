@@ -5,7 +5,7 @@ import mainHtml from "@/lp/main.html?raw";
 import footerHtml from "@/lp/footer.html?raw";
 import { HeroQuiz } from "@/components/HeroQuiz";
 
-const title = "Manual com 165 Massagens Ilustradas para Alívio da Dor";
+const title = "Massagem Alivimediato — 165 Massagens Ilustradas para Alívio da Dor";
 const description =
   "Faça o diagnóstico gratuito e descubra como aliviar dores nas costas, pescoço, pernas e todo o corpo com mais de 165 massagens ilustradas. Por Ana Martha, fisioterapeuta.";
 
