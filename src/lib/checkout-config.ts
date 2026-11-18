@@ -22,7 +22,7 @@ export const PRODUTO_PRINCIPAL: CheckoutItem = {
   fruitfyId: "a34174f1-35c1-49cf-8e71-82cbf6a49d3a",
   nome: "Manual com 165 Massagens Ilustradas",
   descricao: "Guia digital em PDF com técnicas ilustradas para costas, pescoço, pernas e todo o corpo.",
-  imagem: "/lp/assets/img/capa-manual-165.png",
+  imagem: "/lp/assets/img/mockup-oferta.webp",
   preco: 2700,
 };
 
