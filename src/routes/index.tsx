@@ -23,6 +23,11 @@ export const Route = createFileRoute("/")({
       { rel: "preload", as: "font", type: "font/woff2", href: "/lp/assets/fonts/fraunces-latin.woff2", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: "/lp/assets/css/v4.css" },
     ],
+    scripts: [
+      { children: "window.dataLayer = window.dataLayer || [];" },
+      { src: "/lp/assets/js/env-config.js" },
+      { src: "/lp/assets/js/gtm-loader.js" },
+    ],
   }),
   component: Index,
 });
