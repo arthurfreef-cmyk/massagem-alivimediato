@@ -29,7 +29,7 @@ export const PRODUTO_PRINCIPAL: CheckoutItem = {
 export const ORDER_BUMPS: CheckoutItem[] = [
   {
     key: "costas",
-    fruitfyId: "a34174f1-35c1-49cf-8e71-82cbf6a49d3a",
+    fruitfyId: "a3487131-0343-419b-8608-120b4912fca1",
     nome: "Automassagem para Dormir em 10 Minutos",
     descricao: "Rotina rápida de automassagem para soltar costas e pescoço e cair no sono mais rápido.",
     imagem: "/lp/assets/img/maos-costas.webp",
@@ -38,7 +38,7 @@ export const ORDER_BUMPS: CheckoutItem[] = [
   },
   {
     key: "cabeca",
-    fruitfyId: "a34174f1-35c1-49cf-8e71-82cbf6a49d3a",
+    fruitfyId: "a3487131-0343-419b-8608-120b4912fca1",
     nome: "Protocolo Alívio da Dor de Cabeça",
     descricao: "Massagens no pescoço, têmporas e nuca para reduzir a dor de cabeça tensional.",
     imagem: "/lp/assets/img/ana-maos.webp",
@@ -47,7 +47,7 @@ export const ORDER_BUMPS: CheckoutItem[] = [
   },
   {
     key: "combo",
-    fruitfyId: "a34174f1-35c1-49cf-8e71-82cbf6a49d3a",
+    fruitfyId: "a3487131-0343-419b-8608-120b4912fca1",
     nome: "Super Mega Combo — Checklist de Segurança + Mini-curso Introdutório de Massagem para Dor + Do Zero ao Primeiro Dinheiro com Massagem",
     descricao:
       "Leve os 3 acima no COMBO com um desconto imperdível! Compre junto e receba agora mesmo os 3 produtos juntos com o Manual Ilustrado.",

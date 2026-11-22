@@ -10,6 +10,5 @@
 - [ ] Trocar o último bump de R$5,90 pelo "Super Mega Combo" (R$27,00, de R$297,00, 91% off) com a imagem mockuptopcorpussupercombo.webp
 
 ## Bloqueado / aguardando
-- [ ] IDs Fruitfy dos bumps (bumps usam o ID do produto principal)
 - [ ] Suporte preenchido no produto da Fruitfy (bloqueia gerar Pix)
 - [ ] Botão de compra da página ainda aponta para o checkout antigo (sf.topcorpus.com.br)
