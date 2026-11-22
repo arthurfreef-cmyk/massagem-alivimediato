@@ -60,9 +60,9 @@ export const criarPix = createServerFn({ method: "POST" })
     if (!res.ok || (json && typeof json === "object" && "success" in json && (json as { success?: boolean }).success === false)) {
       console.error("Fruitfy pix/charge", res.status, JSON.stringify(json));
       const resposta = json && typeof json === "object" ? json as Record<string, unknown> : {};
-      const dadosResposta = resposta.data && typeof resposta.data === "object" ? resposta.data as Record<string, unknown> : {};
-      const erros = resposta.errors ?? dadosResposta.errors ?? resposta.error ?? dadosResposta.error;
-      const mensagemBase = resposta.message ?? dadosResposta.message;
+      const dadosResposta = resposta["data"] && typeof resposta["data"] === "object" ? resposta["data"] as Record<string, unknown> : {};
+      const erros = resposta["errors"] ?? dadosResposta["errors"] ?? resposta["error"] ?? dadosResposta["error"];
+      const mensagemBase = resposta["message"] ?? dadosResposta["message"];
       const detalheErros = Array.isArray(erros)
         ? erros.map((e) => typeof e === "string" ? e : JSON.stringify(e)).join(" | ")
         : erros && typeof erros === "object"
