@@ -19,7 +19,7 @@ export type CheckoutItem = {
 
 export const PRODUTO_PRINCIPAL: CheckoutItem = {
   key: "manual",
-  fruitfyId: "a34174f1-35c1-49cf-8e71-82cbf6a49d3a",
+  fruitfyId: "a3487131-0343-419b-8608-120b4912fca1",
   nome: "Manual com 165 Massagens Ilustradas",
   descricao: "Guia digital em PDF com técnicas ilustradas para costas, pescoço, pernas e todo o corpo.",
   imagem: "/lp/assets/img/mockup-oferta.webp",
