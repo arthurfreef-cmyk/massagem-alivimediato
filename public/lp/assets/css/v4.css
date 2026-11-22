@@ -1137,3 +1137,26 @@ strong { font-weight: 800; }
 .v4-sucupira__aviso { margin: 16px 0 0; font-size: .875rem; }
 .v4-sucupira__btn { margin-top: 16px; opacity: .68; cursor: not-allowed; }
 .v4-sucupira__nota { margin-top: 10px; font-size: .78rem; line-height: 1.4; }
+
+
+/* Exibição garantida do mockup Sucupira */
+.v4-sucupira__mock {
+  display: block !important;
+  width: 100%;
+  min-height: 220px;
+  padding: 12px;
+  overflow: visible;
+  background: #fff !important;
+}
+.v4-sucupira__mock img {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: min(100%, 420px) !important;
+  height: auto !important;
+  min-height: 180px;
+  max-height: none !important;
+  margin: 0 auto !important;
+  object-fit: contain !important;
+  object-position: center;
+}
