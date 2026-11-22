@@ -200,3 +200,88 @@
     letter-spacing: 0.045em;
   }
 }
+
+
+/* Refined, calm daily-offer strip */
+.oferta-dia {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  width: 100%;
+  min-height: 50px;
+  padding: 10px 18px;
+  background: #f5f2e9;
+  color: #3f5144;
+  border-bottom: 1px solid #e8e2d5;
+  text-align: center;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+.oferta-dia__icone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  color: #687b65;
+  background: #e8ecdf;
+  border-radius: 50%;
+}
+.oferta-dia__mensagem {
+  color: #405447;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: none;
+}
+.oferta-dia__data-label {
+  margin-left: 5px;
+  color: #77796f;
+  font-size: 12px;
+  font-weight: 400;
+}
+.oferta-dia__data {
+  display: inline-flex;
+  align-items: center;
+  min-height: 27px;
+  padding: 3px 10px;
+  color: #435846;
+  background: #fffefa;
+  border: 1px solid #dfe4d7;
+  border-radius: 6px;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.025em;
+}
+@media (max-width: 480px) {
+  .oferta-dia {
+    min-height: 48px;
+    gap: 7px;
+    padding: 9px 10px;
+    font-size: 11px;
+  }
+  .oferta-dia__icone {
+    width: 25px;
+    height: 25px;
+    flex-basis: 25px;
+  }
+  .oferta-dia__icone svg {
+    width: 16px;
+    height: 16px;
+  }
+  .oferta-dia__mensagem {
+    font-size: 11px;
+  }
+  .oferta-dia__data-label,
+  .oferta-dia__data {
+    font-size: 10px;
+  }
+}
