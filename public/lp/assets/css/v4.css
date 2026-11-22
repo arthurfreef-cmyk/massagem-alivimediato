@@ -1087,3 +1087,53 @@ strong { font-weight: 800; }
   opacity: .85;
 }
 .v4-rodape__aviso strong { color: var(--creme); }
+
+
+/* Oferta independente: Pacote Sucupira Composta */
+.v4-sucupira {
+  max-width: 760px;
+  margin: clamp(42px, 7vw, 72px) auto 0;
+}
+.v4-sucupira__intro {
+  max-width: 620px;
+  margin: 0 auto 24px;
+  text-align: center;
+}
+.v4-sucupira__selo {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--verde-claro);
+  color: var(--verde);
+  font-size: .75rem;
+  font-weight: 800;
+  letter-spacing: .07em;
+}
+.v4-sucupira__intro .v4-titulo { margin: 14px 0 10px; }
+.v4-sucupira__intro p,
+.v4-sucupira__descricao,
+.v4-sucupira__aviso,
+.v4-sucupira__nota { color: var(--tinta-suave); }
+.v4-sucupira__card {
+  box-shadow: 0 0 0 3px rgba(244, 199, 102, .24), 0 18px 44px rgba(0, 0, 0, .16);
+}
+.v4-sucupira__mock { background: linear-gradient(180deg, #fffdf8, var(--areia)); }
+.v4-sucupira__mock img {
+  display: block;
+  width: min(100%, 360px);
+  max-height: 310px;
+  margin: 0 auto;
+  object-fit: contain;
+}
+.v4-sucupira__nome {
+  margin: 20px 0 4px;
+  font-family: var(--serifa);
+  font-size: 1.55rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.v4-sucupira__descricao { margin-bottom: 20px; font-size: .95rem; }
+.v4-sucupira__aviso { margin: 16px 0 0; font-size: .875rem; }
+.v4-sucupira__btn { margin-top: 16px; opacity: .68; cursor: not-allowed; }
+.v4-sucupira__nota { margin-top: 10px; font-size: .78rem; line-height: 1.4; }
