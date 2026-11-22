@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import spriteHtml from "@/lp/sprite.html?raw";
 import mainHtml from "@/lp/main.html?raw";
 import footerHtml from "@/lp/footer.html?raw";
@@ -37,6 +37,8 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const [dataAtual, setDataAtual] = useState(() => new Date().toLocaleDateString("pt-BR"));
+
   useEffect(() => {
     if (document.querySelector("script[data-lp-manual]")) return;
     const s = document.createElement("script");
@@ -44,10 +46,29 @@ function Index() {
     s.setAttribute("data-lp-manual", "1");
     document.body.appendChild(s);
   }, []);
+
+  useEffect(() => {
+    const atualizarData = () => setDataAtual(new Date().toLocaleDateString("pt-BR"));
+    const intervalo = window.setInterval(atualizarData, 30_000);
+    window.addEventListener("focus", atualizarData);
+    document.addEventListener("visibilitychange", atualizarData);
+    return () => {
+      window.clearInterval(intervalo);
+      window.removeEventListener("focus", atualizarData);
+      document.removeEventListener("visibilitychange", atualizarData);
+    };
+  }, []);
+
   return (
     <>
       <div dangerouslySetInnerHTML={{ __html: spriteHtml }} />
       <main>
+        <div className="oferta-dia" role="status" aria-live="polite">
+          <span className="oferta-dia__ponto" aria-hidden="true" />
+          <span className="oferta-dia__mensagem">CONDIÇÃO ESPECIAL DE HOJE</span>
+          <span className="oferta-dia__separador" aria-hidden="true">|</span>
+          <time className="oferta-dia__data">{dataAtual}</time>
+        </div>
         <section className="v4-hero" aria-labelledby="hero-title">
           <div className="v4-wrap v4-hero__grade">
             <div className="v4-hero__copy">
