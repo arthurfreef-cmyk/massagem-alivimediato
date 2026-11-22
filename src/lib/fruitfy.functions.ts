@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { itensDoPedido, ORDER_BUMPS, cpfValido } from "./checkout-config";
+import { itensDoPedido, itensFruitfy, ORDER_BUMPS, cpfValido } from "./checkout-config";
 
 const BASE = "https://api.fruitfy.io";
 
@@ -49,12 +49,12 @@ export const criarPix = createServerFn({ method: "POST" })
     const body = JSON.stringify({
       name: data.nome, email: data.email, phone: `55${data.telefone}`, cpf: data.cpf,
       amount: itens.reduce((total, item) => total + item.preco, 0),
-      items: itens.map((i) => ({ id: i.fruitfyId, value: i.preco, quantity: 1 })),
+      items: itensFruitfy(data.bumps),
     });
-    let res = await fetch(`${BASE}/pix/charge`, { method: "POST", headers: headers(), body });
+    let res = await fetch(`${BASE}/api/pix/charge`, { method: "POST", headers: headers(), body });
     // A documentação contém exemplos com e sem /api; usa a rota alternativa apenas em 404.
     if (res.status === 404) {
-      res = await fetch(`${BASE}/api/pix/charge`, { method: "POST", headers: headers(), body });
+      res = await fetch(`${BASE}/pix/charge`, { method: "POST", headers: headers(), body });
     }
     const json = await res.json().catch(() => null);
     if (!res.ok || (json && typeof json === "object" && "success" in json && (json as { success?: boolean }).success === false)) {

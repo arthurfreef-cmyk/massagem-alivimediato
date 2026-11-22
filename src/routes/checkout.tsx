@@ -41,8 +41,9 @@ function Checkout() {
 
   useEffect(() => {
     if (!pix?.id || pago) return;
+    const id = pix.id;
     const t = setInterval(async () => {
-      try { if ((await consultar({ data: { id: pix.id! } })).pago) setPago(true); } catch { /* tenta de novo */ }
+      try { if ((await consultar({ data: { id } })).pago) setPago(true); } catch { /* tenta de novo */ }
     }, 5000);
     return () => clearInterval(t);
   }, [pix, pago, consultar]);

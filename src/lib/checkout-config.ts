@@ -2,8 +2,8 @@ import ofertaAsset from "@/assets/oferta-165-massagens.webp.asset.json";
 import comboAsset from "@/assets/combo-seguranca-dinheiro.webp.asset.json";
 
 // ============ Configuração do checkout (valores em centavos) ============
-// Preencha fruitfyId com o ID (UUID) de cada produto cadastrado na Fruitfy.
-// Enquanto estiver vazio, o checkout avisa que falta produto na Fruitfy.
+// Todos os itens usam exclusivamente o produto informado pelo vendedor.
+export const FRUITFY_PRODUCT_ID = "a3487131-0343-419b-8608-120b4912fca1";
 
 export type CheckoutItem = {
   key: string;
@@ -19,7 +19,7 @@ export type CheckoutItem = {
 
 export const PRODUTO_PRINCIPAL: CheckoutItem = {
   key: "manual",
-  fruitfyId: "a3487131-0343-419b-8608-120b4912fca1",
+  fruitfyId: FRUITFY_PRODUCT_ID,
   nome: "Manual com 165 Massagens Ilustradas",
   descricao: "Guia digital em PDF com técnicas ilustradas para costas, pescoço, pernas e todo o corpo.",
   imagem: "/lp/assets/img/mockup-oferta.webp",
@@ -29,7 +29,7 @@ export const PRODUTO_PRINCIPAL: CheckoutItem = {
 export const ORDER_BUMPS: CheckoutItem[] = [
   {
     key: "costas",
-    fruitfyId: "a3487131-0343-419b-8608-120b4912fca1",
+    fruitfyId: FRUITFY_PRODUCT_ID,
     nome: "Automassagem para Dormir em 10 Minutos",
     descricao: "Rotina rápida de automassagem para soltar costas e pescoço e cair no sono mais rápido.",
     imagem: "/lp/assets/img/maos-costas.webp",
@@ -38,7 +38,7 @@ export const ORDER_BUMPS: CheckoutItem[] = [
   },
   {
     key: "cabeca",
-    fruitfyId: "a3487131-0343-419b-8608-120b4912fca1",
+    fruitfyId: FRUITFY_PRODUCT_ID,
     nome: "Protocolo Alívio da Dor de Cabeça",
     descricao: "Massagens no pescoço, têmporas e nuca para reduzir a dor de cabeça tensional.",
     imagem: "/lp/assets/img/ana-maos.webp",
@@ -47,7 +47,7 @@ export const ORDER_BUMPS: CheckoutItem[] = [
   },
   {
     key: "combo",
-    fruitfyId: "a3487131-0343-419b-8608-120b4912fca1",
+    fruitfyId: FRUITFY_PRODUCT_ID,
     nome: "Super Mega Combo — Checklist de Segurança + Mini-curso Introdutório de Massagem para Dor + Do Zero ao Primeiro Dinheiro com Massagem",
     descricao:
       "Leve os 3 acima no COMBO com um desconto imperdível! Compre junto e receba agora mesmo os 3 produtos juntos com o Manual Ilustrado.",
@@ -70,6 +70,18 @@ export function itensDoPedido(bumps: string[]): CheckoutItem[] {
 
 export function totalCentavos(bumps: string[]): number {
   return itensDoPedido(bumps).reduce((s, i) => s + i.preco, 0);
+}
+
+// A Fruitfy rejeita linhas repetidas para o mesmo ID. Mantém o resumo separado
+// no checkout, mas envia uma única linha por produto com o valor acumulado.
+export function itensFruitfy(bumps: string[]) {
+  const agrupados = new Map<string, { id: string; value: number; quantity: number }>();
+  for (const item of itensDoPedido(bumps)) {
+    const existente = agrupados.get(item.fruitfyId);
+    if (existente) existente.value += item.preco;
+    else agrupados.set(item.fruitfyId, { id: item.fruitfyId, value: item.preco, quantity: 1 });
+  }
+  return [...agrupados.values()];
 }
 
 export function formatarReais(centavos: number): string {

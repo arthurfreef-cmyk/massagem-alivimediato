@@ -4,11 +4,13 @@
 - [x] Página importada do exp-fb.topcorpus.com.br sem a VSL
 - [x] Oferta: 165 massagens ilustradas, quiz gamificado no hero
 - [x] Checkout /checkout com Pix Fruitfy + 3 order bumps
+- [x] Uso exclusivo do ID fornecido e geração real de Pix com e sem adicionais (R$27 e R$65,80).
+- [x] Banner com 165 no checkout, otimizado para mobile.
+- [x] Último adicional substituído pelo Super Mega Combo de R$27, de R$297, com 91% OFF.
+- [x] Suporte do produto confirmado pela geração bem-sucedida de Pix.
 
 ## Em andamento
-- [ ] Banner (oktnxa1uj.webp): trocar "70" por "165" nas 2 ocorrências, usar no checkout, otimizar tamanho p/ mobile
-- [ ] Trocar o último bump de R$5,90 pelo "Super Mega Combo" (R$27,00, de R$297,00, 91% off) com a imagem mockuptopcorpussupercombo.webp
+- Nenhuma tarefa em andamento.
 
 ## Bloqueado / aguardando
-- [ ] Suporte preenchido no produto da Fruitfy (bloqueia gerar Pix)
-- [ ] Botão de compra da página ainda aponta para o checkout antigo (sf.topcorpus.com.br)
+- [ ] Trocar destino do botão de compra para /checkout — aguarda solicitação do usuário; fora do escopo desta correção.

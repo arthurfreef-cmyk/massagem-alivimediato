@@ -31,4 +31,5 @@ use the editor.
 
 <!-- AGENT-MEMORY:BEGIN -->
 - Keep quiz branching and answer-derived profiles in a browser-safe pure module with regression tests so changes to early answers cannot retain an obsolete path.
+- Define checkout product IDs centrally and consolidate Fruitfy charge lines by product ID with summed values; duplicate IDs in separate lines cause charge failures.
 <!-- AGENT-MEMORY:END -->
