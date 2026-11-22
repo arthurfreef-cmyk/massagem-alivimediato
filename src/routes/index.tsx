@@ -64,9 +64,15 @@ function Index() {
       <div dangerouslySetInnerHTML={{ __html: spriteHtml }} />
       <main>
         <div className="oferta-dia" role="status" aria-live="polite">
-          <span className="oferta-dia__ponto" aria-hidden="true" />
-          <span className="oferta-dia__mensagem">CONDIÇÃO ESPECIAL DE HOJE</span>
-          <span className="oferta-dia__separador" aria-hidden="true">|</span>
+          <span className="oferta-dia__icone" aria-hidden="true">
+            <svg viewBox="0 0 20 20" width="18" height="18" fill="none">
+              <rect x="3" y="4.5" width="14" height="12" rx="2" stroke="currentColor" strokeWidth="1.5" />
+              <path d="M6.5 3v3M13.5 3v3M3.5 8h13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+              <path d="m7.5 12 1.6 1.6 3.5-3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+          <span className="oferta-dia__mensagem">Condição especial disponível hoje</span>
+          <span className="oferta-dia__data-label">Válida em</span>
           <time className="oferta-dia__data">{dataAtual}</time>
         </div>
         <section className="v4-hero" aria-labelledby="hero-title">
