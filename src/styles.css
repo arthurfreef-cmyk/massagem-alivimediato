@@ -153,3 +153,50 @@
     color: var(--color-foreground);
   }
 }
+
+
+/* Daily offer date strip */
+.oferta-dia {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 16px;
+  background: #8f2525;
+  color: #fffaf3;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.075em;
+  line-height: 1.25;
+}
+.oferta-dia__ponto {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 8px;
+  border-radius: 50%;
+  background: #ffd27a;
+  box-shadow: 0 0 0 3px rgb(255 210 122 / 20%);
+}
+.oferta-dia__mensagem {
+  text-transform: uppercase;
+}
+.oferta-dia__separador {
+  opacity: 0.65;
+}
+.oferta-dia__data {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 480px) {
+  .oferta-dia {
+    gap: 7px;
+    min-height: 42px;
+    padding: 9px 10px;
+    font-size: 10px;
+    letter-spacing: 0.045em;
+  }
+}
