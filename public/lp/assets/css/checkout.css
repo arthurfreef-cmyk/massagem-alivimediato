@@ -1,6 +1,6 @@
 .ck { min-height: 100vh; background: var(--creme); color: var(--tinta); font-family: var(--sans); padding: 20px 14px 48px; }
 .ck__wrap { max-width: 980px; margin: 0 auto; display: grid; gap: 18px; }
-@media (min-width: 900px) { .ck__wrap { grid-template-columns: 1.15fr .85fr; align-items: start; } .ck__resumo { position: sticky; top: 16px; } }
+@media (min-width: 900px) { .ck__wrap { grid-template-columns: .85fr 1.15fr; align-items: start; } .ck__resumo { position: sticky; top: 16px; } }
 .ck__topo { max-width: 980px; margin: 0 auto 14px; text-align: center; font-weight: 800; font-size: 14px; color: var(--verde); }
 .ck__box { background: var(--branco); border-radius: var(--raio); box-shadow: var(--sombra); padding: 22px 18px; }
 .ck__h { font-family: var(--serifa); font-size: 22px; margin: 0 0 14px; }
@@ -59,4 +59,24 @@
   .ck__pix img { width: 180px; height: 180px; }
   .ck__pix textarea { font-size: 11.5px; }
   .ck__ok { font-size: 21px; }
+}
+
+/* Checkout: resumo do pedido aparece antes dos campos em todas as larguras. */
+.ck__resumo { min-width: 0; }
+.ck__resumo .ck__prod > div { min-width: 0; overflow-wrap: anywhere; }
+.ck__campo input::placeholder { color: #827d70; opacity: .8; }
+.ck__campo input:-webkit-autofill,
+.ck__campo input:-webkit-autofill:hover,
+.ck__campo input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--tinta);
+  box-shadow: 0 0 0 1000px var(--creme) inset;
+  transition: background-color 9999s ease-out;
+}
+@media (max-width: 640px) {
+  .ck__resumo { order: 0; }
+  .ck__wrap > form,
+  .ck__wrap > .ck__box:not(.ck__resumo) { order: 1; }
+  .ck__prod { align-items: flex-start; }
+  .ck__prod > div { overflow-wrap: anywhere; }
+  .ck__campo input { min-height: 48px; }
 }
