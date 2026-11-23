@@ -30,6 +30,7 @@ use the editor.
 <!-- LOVABLE:END -->
 
 <!-- AGENT-MEMORY:BEGIN -->
+- Scope upsell presentation overrides to `.su` in its own stylesheet so mobile adjustments do not change the shared checkout or payment logic.
 - Keep quiz branching and answer-derived profiles in a browser-safe pure module with regression tests so changes to early answers cannot retain an obsolete path.
 - Define checkout product IDs centrally and consolidate Fruitfy charge lines by product ID with summed values; duplicate IDs in separate lines cause charge failures.
 <!-- AGENT-MEMORY:END -->

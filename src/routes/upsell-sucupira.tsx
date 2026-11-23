@@ -5,10 +5,12 @@ import QRCode from "qrcode";
 import { formatarReais, cpfValido } from "@/lib/checkout-config";
 import { criarPix, statusPix } from "@/lib/fruitfy.functions";
 import imagemSucupira from "@/assets/upsell-sucupira.jpg";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/upsell-sucupira")({
   head: () => ({
     meta: [
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
       { title: "Oferta especial — Chá de Sucupira | Massagem Alivimediato" },
       { name: "description", content: "Oferta única pós-compra: potencialize o alívio das dores com o Chá de Sucupira." },
       { name: "robots", content: "noindex" },
@@ -20,6 +22,7 @@ export const Route = createFileRoute("/upsell-sucupira")({
     links: [
       { rel: "stylesheet", href: "/lp/assets/css/v4.css" },
       { rel: "stylesheet", href: "/lp/assets/css/checkout.css" },
+      { rel: "stylesheet", href: "/lp/assets/css/upsell-sucupira.css" },
     ],
   }),
   component: UpsellSucupira,
@@ -82,9 +85,10 @@ function UpsellSucupira() {
   }
 
   return (
-    <main className="ck">
+    <main className="ck su">
       <p className="ck__topo">Massagem Alivimediato · Oferta especial</p>
-      <div className="ck__wrap" style={{ maxWidth: 720, display: "block" }}>
+      <div className="ck__wrap">
+        <p className="su__aviso">Seu produto principal já foi enviado para o seu e-mail.</p>
         {pago ? (
           <section className="ck__box ck__pix">
             <p className="ck__ok">Pagamento confirmado! 🎉</p>
@@ -96,9 +100,9 @@ function UpsellSucupira() {
             <p>Abra o app do seu banco, escolha Pix e escaneie o código ou use o copia e cola.</p>
             <img src={pix.qr} alt="QR Code do Pix" />
             <textarea readOnly rows={4} value={pix.pix} aria-label="Código Pix copia e cola" />
-            <button type="button" className="ck__btn" onClick={async () => { await navigator.clipboard.writeText(pix.pix); setCopiado(true); setTimeout(() => setCopiado(false), 2500); }}>
+            <Button type="button" className="ck__btn" onClick={async () => { await navigator.clipboard.writeText(pix.pix); setCopiado(true); setTimeout(() => setCopiado(false), 2500); }}>
               {copiado ? "Código copiado ✓" : "Copiar código Pix"}
-            </button>
+            </Button>
             <p className="ck__seg">Assim que o pagamento for aprovado, confirmamos seu pedido.</p>
           </section>
         ) : recusou ? (
@@ -108,10 +112,10 @@ function UpsellSucupira() {
           </section>
         ) : (
           <section className="ck__box">
-            <p className="ck__seg" style={{ marginTop: 0, fontWeight: 800, color: "var(--verde)" }}>
+            <p className="ck__seg su__intro">
               Parabéns pela sua compra! Antes de ir, uma oferta só sua:
             </p>
-            <h1 className="ck__h" style={{ fontSize: 26, textAlign: "center" }}>
+            <h1 className="ck__h su__titulo">
               Potencialize o alívio das suas dores com o Chá de Sucupira
             </h1>
             <img
@@ -119,40 +123,41 @@ function UpsellSucupira() {
               alt="Kit de Chá de Sucupira com casca e sementes selecionadas"
               width={1024}
               height={1024}
-              style={{ width: "100%", maxWidth: 380, height: "auto", display: "block", margin: "0 auto 14px", borderRadius: 14 }}
+              className="su__imagem"
             />
-            <ul style={{ listStyle: "none", padding: 0, margin: "0 0 14px", display: "grid", gap: 8 }}>
+            <ul className="su__beneficios">
               {BENEFICIOS.map((b) => (
-                <li key={b} style={{ display: "flex", gap: 8, fontSize: 14.5, lineHeight: 1.45 }}>
+                <li key={b}>
                   <span aria-hidden>✅</span>
                   <span>{b}</span>
                 </li>
               ))}
             </ul>
-            <p style={{ textAlign: "center", margin: "0 0 4px" }}>
-              <span className="ck__de" style={{ display: "inline", fontSize: 15 }}>
+            <p className="su__preco">
+              <span className="ck__de">
                 de <s>{formatarReais(DE)}</s> por apenas{" "}
-                <strong style={{ fontSize: 24 }}>{formatarReais(PRECO)}</strong>
+                <strong>{formatarReais(PRECO)}</strong>
               </span>
             </p>
-            <p className="ck__seg" style={{ marginTop: 0 }}>Oferta única nesta página — não aparece de novo.</p>
+            <p className="ck__seg su__limite">Oferta única nesta página — não aparece de novo.</p>
             {!querOferta ? (
               <>
-                <button type="button" className="ck__btn" onClick={() => setQuerOferta(true)}>
+                <Button type="button" className="ck__btn" onClick={() => setQuerOferta(true)}>
                   Sim, quero o meu Chá de Sucupira
-                </button>
+                </Button>
                 <p className="ck__seg">
-                  <button
+                  <Button
                     type="button"
+                    variant="link"
+                    className="su__recusar"
                     onClick={() => setRecusou(true)}
-                    style={{ background: "none", border: 0, cursor: "pointer", color: "inherit", textDecoration: "underline", font: "inherit" }}
                   >
                     Não, obrigado — quero só o Manual
-                  </button>
+                  </Button>
                 </p>
               </>
             ) : (
-              <form onSubmit={enviar} noValidate style={{ marginTop: 10 }}>
+              <form onSubmit={enviar} noValidate className="su__form">
                 <label className="ck__campo">Nome completo<input autoComplete="name" value={f.nome} onChange={(e) => setF({ ...f, nome: e.target.value })} /></label>
                 <label className="ck__campo">E-mail<input type="email" autoComplete="email" value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} /></label>
                 <div className="ck__dois">
@@ -160,7 +165,7 @@ function UpsellSucupira() {
                   <label className="ck__campo">CPF<input inputMode="numeric" value={f.cpf} onChange={(e) => setF({ ...f, cpf: mascCpf(e.target.value) })} placeholder="000.000.000-00" /></label>
                 </div>
                 {erro && <p className="ck__erro" role="alert">{erro}</p>}
-                <button className="ck__btn" disabled={carregando}>{carregando ? "Gerando Pix..." : `Gerar Pix de ${formatarReais(PRECO)}`}</button>
+                <Button type="submit" className="ck__btn" disabled={carregando}>{carregando ? "Gerando Pix..." : `Gerar Pix de ${formatarReais(PRECO)}`}</Button>
               </form>
             )}
           </section>
