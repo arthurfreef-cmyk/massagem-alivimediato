@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { itensDoPedido, itensFruitfy, ORDER_BUMPS, cpfValido } from "./checkout-config";
+import { itensDoPedido, ORDER_BUMPS, cpfValido } from "./checkout-config";
 
 
 const SUPABASE_URL = process.env["SUPABASE_URL"] ?? "";
