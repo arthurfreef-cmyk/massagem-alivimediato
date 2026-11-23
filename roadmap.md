@@ -15,4 +15,5 @@
 
 ## Bloqueado / aguardando
 - [ ] Substituir o mockup do upsell exatamente por kit3.webp — arquivo não disponível nos anexos atuais.
+- [ ] Publicar o arquivo original testimonial-6.mp4 em public/lp/assets/video/testimonial-6.mp4 para ativar o player já adicionado à página.
 - [ ] Entrega do acesso por e-mail após o pagamento — depende do fluxo da Fruitfy, não verificado em pagamento real.
