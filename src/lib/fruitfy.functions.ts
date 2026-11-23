@@ -80,7 +80,16 @@ export const criarPix = createServerFn({ method: "POST" })
     }).parse(d),
   )
   .handler(async ({ data }) => {
-    let precoBump: number;\n    try {\n      precoBump = await obterPrecoBump(data.visitorId);\n    } catch (error) {\n      console.error("Preço do order bump não confirmado:", error);\n      return { ok: false as const, erro: "Não foi possível confirmar o preço dos adicionais. Atualize a página e tente novamente." };\n    }\n    const itens = itensDoPedido(data.bumps).map((item) =>\n      item.key === "costas" || item.key === "cabeca" ? { ...item, preco: precoBump } : item,\n    );
+    let precoBump: number;
+    try {
+      precoBump = await obterPrecoBump(data.visitorId);
+    } catch (error) {
+      console.error("Preço do order bump não confirmado:", error);
+      return { ok: false as const, erro: "Não foi possível confirmar o preço dos adicionais. Atualize a página e tente novamente." };
+    }
+    const itens = itensDoPedido(data.bumps).map((item) =>
+      item.key === "costas" || item.key === "cabeca" ? { ...item, preco: precoBump } : item,
+    );
     if (itens.some((i) => !i.fruitfyId)) return { ok: false as const, erro: "Checkout ainda não configurado com os produtos da Fruitfy." };
     if (!process.env["FRUITFY_API_TOKEN"] || !process.env["FRUITFY_STORE_ID"]) {
       console.error("Fruitfy: FRUITFY_API_TOKEN ou FRUITFY_STORE_ID não configurado no servidor.");
@@ -89,7 +98,15 @@ export const criarPix = createServerFn({ method: "POST" })
     const body = JSON.stringify({
       name: data.nome, email: data.email, phone: `55${data.telefone}`, cpf: data.cpf,
       amount: itens.reduce((total, item) => total + item.preco, 0),
-      items: (() => {\n        const agrupados = new Map<string, { id: string; value: number; quantity: number }>();\n        for (const item of itens) {\n          const existente = agrupados.get(item.fruitfyId);\n          if (existente) existente.value += item.preco;\n          else agrupados.set(item.fruitfyId, { id: item.fruitfyId, value: item.preco, quantity: 1 });\n        }\n        return [...agrupados.values()];\n      })(),
+      items: (() => {
+        const agrupados = new Map<string, { id: string; value: number; quantity: number }>();
+        for (const item of itens) {
+          const existente = agrupados.get(item.fruitfyId);
+          if (existente) existente.value += item.preco;
+          else agrupados.set(item.fruitfyId, { id: item.fruitfyId, value: item.preco, quantity: 1 });
+        }
+        return [...agrupados.values()];
+      })(),
     });
     let res = await fetch(`${BASE}/api/pix/charge`, { method: "POST", headers: headers(), body });
     // A documentação contém exemplos com e sem /api; usa a rota alternativa apenas em 404.
