@@ -10,7 +10,7 @@
 - [x] Suporte do produto confirmado pela geração bem-sucedida de Pix.
 
 ## Em andamento
-- [ ] Ajustar o upsell para mobile e validar aviso, aceite, recusa e telas de Pix sem alterar a cobrança.
+- [x] Ajustes CSS responsivos do upsell e aviso de envio do produto principal por e-mail; validação visual e de pagamento ainda pendentes.
 - [x] Rota /upsell-sucupira criada e concluída no repositório (oferta pós-compra do Chá de Sucupira, R$67 de R$97, Pix via Fruitfy).
 
 ## Bloqueado / aguardando
