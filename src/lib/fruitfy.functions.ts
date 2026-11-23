@@ -10,7 +10,7 @@ async function obterPrecoBump(visitorId: string): Promise<number> {
   if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
     throw new Error("Preço personalizado indisponível: configure SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY no servidor.");
   }
-  const response = await fetch(`${SUPABASE_URL.replace(/\\/$/, "")}/rest/v1/rpc/assign_order_bump_price`, {
+  const response = await fetch(`${SUPABASE_URL.replace(/\/+$/, "")}/rest/v1/rpc/assign_order_bump_price`, {
     method: "POST",
     headers: {
       apikey: SUPABASE_SERVICE_ROLE_KEY,
