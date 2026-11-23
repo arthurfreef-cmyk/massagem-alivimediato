@@ -3,7 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import QRCode from "qrcode";
 import { BANNER_CHECKOUT, ORDER_BUMPS, PRODUTO_PRINCIPAL, itensDoPedido, totalCentavos, formatarReais, cpfValido } from "@/lib/checkout-config";
-import { criarPix, statusPix } from "@/lib/fruitfy.functions";
+import { criarPix, statusPix, obterPrecoOrderBumps } from "@/lib/fruitfy.functions";
 
 export const Route = createFileRoute("/checkout")({
   head: () => ({
@@ -31,6 +31,7 @@ const mascTel = (s: string) => so(s).slice(0, 11).replace(/^(\d{2})(\d)/, "($1) 
 function Checkout() {
   const gerar = useServerFn(criarPix);
   const consultar = useServerFn(statusPix);
+  const atribuirPreco = useServerFn(obterPrecoOrderBumps);
   const [f, setF] = useState({ nome: "", email: "", telefone: "", cpf: "" });
   const [bumps, setBumps] = useState<string[]>([]);
   const [erro, setErro] = useState("");
@@ -38,6 +39,35 @@ function Checkout() {
   const [pix, setPix] = useState<{ pix: string; qr: string; id: string | null } | null>(null);
   const [copiado, setCopiado] = useState(false);
   const [pago, setPago] = useState(false);
+  const [visitorId, setVisitorId] = useState("");
+  const [precoBump, setPrecoBump] = useState<number | null>(null);
+  const [precoErro, setPrecoErro] = useState("");
+
+  useEffect(() => {
+    let ativo = true;
+    async function carregarPreco() {
+      try {
+        const storageKey = "alivimediato_checkout_visitor";
+        let id = window.sessionStorage.getItem(storageKey);
+        if (!id) {
+          id = window.crypto.randomUUID();
+          window.sessionStorage.setItem(storageKey, id);
+        }
+        if (ativo) setVisitorId(id);
+        const resultado = await atribuirPreco({ data: { visitorId: id } });
+        if (!ativo) return;
+        if (!resultado.ok) {
+          setPrecoErro(resultado.erro);
+          return;
+        }
+        setPrecoBump(resultado.preco);
+      } catch {
+        if (ativo) setPrecoErro("Não foi possível carregar o preço dos adicionais. Atualize a página.");
+      }
+    }
+    void carregarPreco();
+    return () => { ativo = false; };
+  }, [atribuirPreco]);
 
   useEffect(() => {
     if (!pix?.id || pago) return;
@@ -69,7 +99,7 @@ function Checkout() {
     if (!cpfValido(f.cpf)) return setErro("CPF inválido.");
     setCarregando(true);
     try {
-      const r = await gerar({ data: { nome: f.nome.trim(), email: f.email.trim(), telefone: so(f.telefone), cpf: so(f.cpf), bumps } });
+      const r = await gerar({ data: { nome: f.nome.trim(), email: f.email.trim(), telefone: so(f.telefone), cpf: so(f.cpf), bumps, visitorId } });
       if (!r.ok) return setErro(r.erro);
       const qr = r.qr ?? (await QRCode.toDataURL(r.pix, { width: 460, margin: 1 }));
       setPix({ pix: r.pix, qr, id: r.id });
@@ -81,8 +111,12 @@ function Checkout() {
     }
   }
 
-  const itens = itensDoPedido(bumps);
-  const total = totalCentavos(bumps);
+  const itens = itensDoPedido(bumps).map((item) =>
+    item.key === "costas" || item.key === "cabeca"
+      ? { ...item, preco: precoBump ?? item.preco }
+      : item,
+  );
+  const total = itens.reduce((soma, item) => soma + item.preco, 0);
 
   const resumo = (
     <aside className="ck__box ck__resumo">
@@ -131,6 +165,8 @@ function Checkout() {
               <label className="ck__campo">CPF<input name="cpf" inputMode="numeric" autoComplete="off" required maxLength={14} value={f.cpf} onChange={(e) => setF({ ...f, cpf: mascCpf(e.target.value) })} placeholder="000.000.000-00" /></label>
             </div>
             <h2 className="ck__h" style={{ marginTop: 10 }}>Aproveite também</h2>
+            {precoBump === null && !precoErro ? <p role="status">Carregando preço dos adicionais...</p> : null}
+            {precoErro ? <p className="ck__erro" role="alert">{precoErro}</p> : null}
             {ORDER_BUMPS.map((b) => (
               <label key={b.key} className={"ck__bump" + (bumps.includes(b.key) ? " is-on" : "")}>
                 <input type="checkbox" checked={bumps.includes(b.key)} onChange={() => alternar(b.key)} />
@@ -149,7 +185,7 @@ function Checkout() {
               </label>
             ))}
             {erro && <p className="ck__erro" role="alert">{erro}</p>}
-            <button className="ck__btn" disabled={carregando}>{carregando ? "Gerando Pix..." : `Gerar Pix de ${formatarReais(total)}`}</button>
+            <button className="ck__btn" disabled={carregando || precoBump === null || !!precoErro || !visitorId}>{carregando ? "Gerando Pix..." : precoBump === null ? "Carregando preços..." : `Gerar Pix de ${formatarReais(total)}`}</button>
           </form>
         )}
       </div>
