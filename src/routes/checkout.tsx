@@ -104,6 +104,7 @@ function Checkout() {
       <img className="ck__banner" src={BANNER_CHECKOUT.imagem} alt={BANNER_CHECKOUT.alt} width={1024} height={357} />
       <p className="ck__topo">Massagem Alivimediato · Checkout seguro</p>
       <div className="ck__wrap">
+        {resumo}
         {pago ? (
           <section className="ck__box ck__pix">
             <p className="ck__ok">Pagamento confirmado! 🎉</p>
@@ -123,11 +124,11 @@ function Checkout() {
         ) : (
           <form className="ck__box" onSubmit={enviar} noValidate>
             <h1 className="ck__h">Seus dados</h1>
-            <label className="ck__campo">Nome completo<input autoComplete="name" value={f.nome} onChange={(e) => setF({ ...f, nome: e.target.value })} /></label>
-            <label className="ck__campo">E-mail (onde você recebe o acesso)<input type="email" autoComplete="email" value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} /></label>
+            <label className="ck__campo">Nome completo<input name="name" autoComplete="name" required maxLength={120} value={f.nome} onChange={(e) => setF({ ...f, nome: e.target.value })} placeholder="Seu nome completo" /></label>
+            <label className="ck__campo">E-mail (onde você recebe o acesso)<input name="email" type="email" inputMode="email" autoComplete="email" required maxLength={200} value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} placeholder="seuemail@exemplo.com" /></label>
             <div className="ck__dois">
-              <label className="ck__campo">WhatsApp<input inputMode="tel" autoComplete="tel" value={f.telefone} onChange={(e) => setF({ ...f, telefone: mascTel(e.target.value) })} placeholder="(11) 99999-9999" /></label>
-              <label className="ck__campo">CPF<input inputMode="numeric" value={f.cpf} onChange={(e) => setF({ ...f, cpf: mascCpf(e.target.value) })} placeholder="000.000.000-00" /></label>
+              <label className="ck__campo">WhatsApp<input name="tel" type="tel" inputMode="tel" autoComplete="tel" required maxLength={16} value={f.telefone} onChange={(e) => setF({ ...f, telefone: mascTel(e.target.value) })} placeholder="(11) 99999-9999" /></label>
+              <label className="ck__campo">CPF<input name="cpf" inputMode="numeric" autoComplete="off" required maxLength={14} value={f.cpf} onChange={(e) => setF({ ...f, cpf: mascCpf(e.target.value) })} placeholder="000.000.000-00" /></label>
             </div>
             <h2 className="ck__h" style={{ marginTop: 10 }}>Aproveite também</h2>
             {ORDER_BUMPS.map((b) => (
@@ -151,7 +152,6 @@ function Checkout() {
             <button className="ck__btn" disabled={carregando}>{carregando ? "Gerando Pix..." : `Gerar Pix de ${formatarReais(total)}`}</button>
           </form>
         )}
-        {resumo}
       </div>
     </main>
   );
