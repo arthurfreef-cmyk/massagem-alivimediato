@@ -2,6 +2,45 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { itensDoPedido, itensFruitfy, ORDER_BUMPS, cpfValido } from "./checkout-config";
 
+
+const SUPABASE_URL = process.env["SUPABASE_URL"] ?? "";
+const SUPABASE_SERVICE_ROLE_KEY = process.env["SUPABASE_SERVICE_ROLE_KEY"] ?? "";
+
+async function obterPrecoBump(visitorId: string): Promise<number> {
+  if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+    throw new Error("Preço personalizado indisponível: configure SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY no servidor.");
+  }
+  const response = await fetch(`${SUPABASE_URL.replace(/\\/$/, "")}/rest/v1/rpc/assign_order_bump_price`, {
+    method: "POST",
+    headers: {
+      apikey: SUPABASE_SERVICE_ROLE_KEY,
+      Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({ p_visitor_id: visitorId }),
+  });
+  if (!response.ok) {
+    const detail = await response.text().catch(() => "");
+    console.error("Supabase assign_order_bump_price", response.status, detail);
+    throw new Error("Não foi possível definir o preço deste checkout.");
+  }
+  const price = await response.json();
+  if (price !== 590 && price !== 990) throw new Error("O Supabase retornou um preço inválido.");
+  return price;
+}
+
+export const obterPrecoOrderBumps = createServerFn({ method: "POST" })
+  .inputValidator((d) => z.object({ visitorId: z.string().uuid() }).parse(d))
+  .handler(async ({ data }) => {
+    try {
+      return { ok: true as const, preco: await obterPrecoBump(data.visitorId) };
+    } catch (error) {
+      console.error("Atribuição do preço dos order bumps:", error);
+      return { ok: false as const, erro: "Não foi possível carregar o preço da oferta. Atualize a página ou tente novamente." };
+    }
+  });
+
 const BASE = "https://api.fruitfy.io";
 
 function headers() {
@@ -37,10 +76,11 @@ export const criarPix = createServerFn({ method: "POST" })
       telefone: z.string().regex(/^\d{10,11}$/),
       cpf: z.string().regex(/^\d{11}$/).refine(cpfValido),
       bumps: z.array(z.enum(ORDER_BUMPS.map((b) => b.key) as [string, ...string[]])).max(3),
+      visitorId: z.string().uuid(),
     }).parse(d),
   )
   .handler(async ({ data }) => {
-    const itens = itensDoPedido(data.bumps);
+    let precoBump: number;\n    try {\n      precoBump = await obterPrecoBump(data.visitorId);\n    } catch (error) {\n      console.error("Preço do order bump não confirmado:", error);\n      return { ok: false as const, erro: "Não foi possível confirmar o preço dos adicionais. Atualize a página e tente novamente." };\n    }\n    const itens = itensDoPedido(data.bumps).map((item) =>\n      item.key === "costas" || item.key === "cabeca" ? { ...item, preco: precoBump } : item,\n    );
     if (itens.some((i) => !i.fruitfyId)) return { ok: false as const, erro: "Checkout ainda não configurado com os produtos da Fruitfy." };
     if (!process.env["FRUITFY_API_TOKEN"] || !process.env["FRUITFY_STORE_ID"]) {
       console.error("Fruitfy: FRUITFY_API_TOKEN ou FRUITFY_STORE_ID não configurado no servidor.");
@@ -49,7 +89,7 @@ export const criarPix = createServerFn({ method: "POST" })
     const body = JSON.stringify({
       name: data.nome, email: data.email, phone: `55${data.telefone}`, cpf: data.cpf,
       amount: itens.reduce((total, item) => total + item.preco, 0),
-      items: itensFruitfy(data.bumps),
+      items: (() => {\n        const agrupados = new Map<string, { id: string; value: number; quantity: number }>();\n        for (const item of itens) {\n          const existente = agrupados.get(item.fruitfyId);\n          if (existente) existente.value += item.preco;\n          else agrupados.set(item.fruitfyId, { id: item.fruitfyId, value: item.preco, quantity: 1 });\n        }\n        return [...agrupados.values()];\n      })(),
     });
     let res = await fetch(`${BASE}/api/pix/charge`, { method: "POST", headers: headers(), body });
     // A documentação contém exemplos com e sem /api; usa a rota alternativa apenas em 404.
