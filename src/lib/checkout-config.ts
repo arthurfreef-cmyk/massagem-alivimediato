@@ -42,7 +42,7 @@ export const ORDER_BUMPS: CheckoutItem[] = [
     nome: "Protocolo Alívio da Dor de Cabeça",
     descricao: "Massagens no pescoço, têmporas e nuca para reduzir a dor de cabeça tensional.",
     imagem: "/lp/assets/img/ana-maos.webp",
-    preco: 590,
+    preco: 990,
     selo: "Oferta única",
   },
   {
