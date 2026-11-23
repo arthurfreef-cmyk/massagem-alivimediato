@@ -33,7 +33,7 @@ export const ORDER_BUMPS: CheckoutItem[] = [
     nome: "Automassagem para Dormir em 10 Minutos",
     descricao: "Rotina rápida de automassagem para soltar costas e pescoço e cair no sono mais rápido.",
     imagem: "/lp/assets/img/maos-costas.webp",
-    preco: 590,
+    preco: 990,
     selo: "Oferta única",
   },
   {
