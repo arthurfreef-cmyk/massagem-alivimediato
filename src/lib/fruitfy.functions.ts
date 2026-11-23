@@ -44,7 +44,6 @@ export const criarPix = createServerFn({ method: "POST" })
       telefone: z.string().regex(/^\d{10,11}$/),
       cpf: z.string().regex(/^\d{11}$/).refine(cpfValido),
       bumps: z.array(z.enum(ORDER_BUMPS.map((b) => b.key) as [string, ...string[]])).max(3),
-      visitorId: z.string().uuid(),
       mode: z.enum(["checkout", "sucupira"]).default("checkout"),
     }).parse(d),
   )
