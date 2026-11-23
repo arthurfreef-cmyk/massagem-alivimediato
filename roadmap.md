@@ -10,7 +10,7 @@
 - [x] Suporte do produto confirmado pela geração bem-sucedida de Pix.
 
 ## Em andamento
-- Nenhuma tarefa em andamento.
+- [x] Rota /upsell-sucupira criada (oferta pós-compra do Chá de Sucupira, R$27 de R$97, Pix via Fruitfy).
 
 ## Bloqueado / aguardando
 - [ ] Trocar destino do botão de compra para /checkout — aguarda solicitação do usuário; fora do escopo desta correção.
