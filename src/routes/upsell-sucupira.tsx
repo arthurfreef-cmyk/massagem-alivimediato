@@ -53,6 +53,7 @@ function UpsellSucupira() {
   const [pix, setPix] = useState<{ pix: string; qr: string; id: string | null } | null>(null);
   const [copiado, setCopiado] = useState(false);
   const [pago, setPago] = useState(false);
+  const [depoimentoIndisponivel, setDepoimentoIndisponivel] = useState(false);
 
   useEffect(() => {
     if (!pix?.id || pago) return;
@@ -133,6 +134,25 @@ function UpsellSucupira() {
                 </li>
               ))}
             </ul>
+            <section className="su__depoimento" aria-labelledby="su__depoimento-titulo">
+              <p className="su__depoimento-eyebrow">Relato de quem já experimentou</p>
+              <h2 id="su__depoimento-titulo" className="su__depoimento-titulo">Veja o depoimento</h2>
+              {depoimentoIndisponivel ? (
+                <p className="su__depoimento-fallback">O vídeo de depoimento estará disponível em breve.</p>
+              ) : (
+                <video
+                  className="su__depoimento-video"
+                  controls
+                  playsInline
+                  preload="metadata"
+                  aria-label="Vídeo de depoimento sobre o produto"
+                  onError={() => setDepoimentoIndisponivel(true)}
+                >
+                  <source src="/lp/assets/video/testimonial-6.mp4" type="video/mp4" />
+                  Seu navegador não conseguiu carregar este vídeo.
+                </video>
+              )}
+            </section>
             <p className="su__preco">
               <span className="ck__de">
                 de <s>{formatarReais(DE)}</s> por apenas{" "}
