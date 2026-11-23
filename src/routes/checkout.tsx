@@ -42,8 +42,18 @@ function Checkout() {
   useEffect(() => {
     if (!pix?.id || pago) return;
     const id = pix.id;
+    let redirecionando = false;
     const t = setInterval(async () => {
-      try { if ((await consultar({ data: { id } })).pago) setPago(true); } catch { /* tenta de novo */ }
+      try {
+        const status = await consultar({ data: { id } });
+        if (status.pago && !redirecionando) {
+          redirecionando = true;
+          setPago(true);
+          window.location.replace("/upsell-sucupira");
+        }
+      } catch {
+        // Mantém a consulta ativa e tenta novamente.
+      }
     }, 5000);
     return () => clearInterval(t);
   }, [pix, pago, consultar]);
