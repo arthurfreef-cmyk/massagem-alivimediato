@@ -54,6 +54,17 @@ function UpsellSucupira() {
   const [copiado, setCopiado] = useState(false);
   const [pago, setPago] = useState(false);
   const [depoimentoIndisponivel, setDepoimentoIndisponivel] = useState(false);
+  const [visitorId, setVisitorId] = useState("");
+
+  useEffect(() => {
+    const storageKey = "alivimediato_checkout_visitor";
+    let id = window.sessionStorage.getItem(storageKey);
+    if (!id) {
+      id = window.crypto.randomUUID();
+      window.sessionStorage.setItem(storageKey, id);
+    }
+    setVisitorId(id);
+  }, []);
 
   useEffect(() => {
     if (!pix?.id || pago) return;
@@ -73,7 +84,7 @@ function UpsellSucupira() {
     if (!cpfValido(f.cpf)) return setErro("CPF inválido.");
     setCarregando(true);
     try {
-      const r = await gerar({ data: { nome: f.nome.trim(), email: f.email.trim(), telefone: so(f.telefone), cpf: so(f.cpf), bumps: [] } });
+      const r = await gerar({ data: { nome: f.nome.trim(), email: f.email.trim(), telefone: so(f.telefone), cpf: so(f.cpf), bumps: [], visitorId } });
       if (!r.ok) return setErro(r.erro);
       const qr = r.qr ?? (await QRCode.toDataURL(r.pix, { width: 460, margin: 1 }));
       setPix({ pix: r.pix, qr, id: r.id });
@@ -185,7 +196,7 @@ function UpsellSucupira() {
                   <label className="ck__campo">CPF<input inputMode="numeric" value={f.cpf} onChange={(e) => setF({ ...f, cpf: mascCpf(e.target.value) })} placeholder="000.000.000-00" /></label>
                 </div>
                 {erro && <p className="ck__erro" role="alert">{erro}</p>}
-                <Button type="submit" className="ck__btn" disabled={carregando}>{carregando ? "Gerando Pix..." : `Gerar Pix de ${formatarReais(PRECO)}`}</Button>
+                <Button type="submit" className="ck__btn" disabled={carregando || !visitorId}>{carregando ? "Gerando Pix..." : `Gerar Pix de ${formatarReais(PRECO)}`}</Button>
               </form>
             )}
           </section>
