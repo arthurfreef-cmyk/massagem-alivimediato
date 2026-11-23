@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { itensDoPedido, ORDER_BUMPS, cpfValido } from "./checkout-config";
+import { itensDoPedido, ORDER_BUMPS, cpfValido, FRUITFY_PRODUCT_ID } from "./checkout-config";
 
 
 const SUPABASE_URL = process.env["SUPABASE_URL"] ?? "";
@@ -77,6 +77,7 @@ export const criarPix = createServerFn({ method: "POST" })
       cpf: z.string().regex(/^\d{11}$/).refine(cpfValido),
       bumps: z.array(z.enum(ORDER_BUMPS.map((b) => b.key) as [string, ...string[]])).max(3),
       visitorId: z.string().uuid(),
+      mode: z.enum(["checkout", "sucupira"]).default("checkout"),
     }).parse(d),
   )
   .handler(async ({ data }) => {
@@ -87,9 +88,11 @@ export const criarPix = createServerFn({ method: "POST" })
       console.error("Preço do order bump não confirmado:", error);
       return { ok: false as const, erro: "Não foi possível confirmar o preço dos adicionais. Atualize a página e tente novamente." };
     }
-    const itens = itensDoPedido(data.bumps).map((item) =>
-      item.key === "costas" || item.key === "cabeca" ? { ...item, preco: precoBump } : item,
-    );
+    const itens = data.mode === "sucupira"
+      ? [{ key: "sucupira", fruitfyId: FRUITFY_PRODUCT_ID, preco: 6700 }]
+      : itensDoPedido(data.bumps).map((item) =>
+          item.key === "costas" || item.key === "cabeca" ? { ...item, preco: precoBump } : item,
+        );
     if (itens.some((i) => !i.fruitfyId)) return { ok: false as const, erro: "Checkout ainda não configurado com os produtos da Fruitfy." };
     if (!process.env["FRUITFY_API_TOKEN"] || !process.env["FRUITFY_STORE_ID"]) {
       console.error("Fruitfy: FRUITFY_API_TOKEN ou FRUITFY_STORE_ID não configurado no servidor.");
