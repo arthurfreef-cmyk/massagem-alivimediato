@@ -25,7 +25,7 @@ export const Route = createFileRoute("/upsell-sucupira")({
   component: UpsellSucupira,
 });
 
-const PRECO = 2700; // centavos
+const PRECO = 6700; // centavos
 const DE = 9700;
 
 const so = (s: string) => s.replace(/\D/g, "");
