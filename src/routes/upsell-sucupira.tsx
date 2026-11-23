@@ -84,7 +84,7 @@ function UpsellSucupira() {
     if (!cpfValido(f.cpf)) return setErro("CPF inválido.");
     setCarregando(true);
     try {
-      const r = await gerar({ data: { nome: f.nome.trim(), email: f.email.trim(), telefone: so(f.telefone), cpf: so(f.cpf), bumps: [], visitorId } });
+      const r = await gerar({ data: { nome: f.nome.trim(), email: f.email.trim(), telefone: so(f.telefone), cpf: so(f.cpf), bumps: [], visitorId, mode: "sucupira" } });
       if (!r.ok) return setErro(r.erro);
       const qr = r.qr ?? (await QRCode.toDataURL(r.pix, { width: 460, margin: 1 }));
       setPix({ pix: r.pix, qr, id: r.id });
