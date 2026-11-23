@@ -3,43 +3,11 @@ import { z } from "zod";
 import { itensDoPedido, ORDER_BUMPS, cpfValido, FRUITFY_PRODUCT_ID } from "./checkout-config";
 
 
-const SUPABASE_URL = process.env["SUPABASE_URL"] ?? "";
-const SUPABASE_SERVICE_ROLE_KEY = process.env["SUPABASE_SERVICE_ROLE_KEY"] ?? "";
-
-async function obterPrecoBump(visitorId: string): Promise<number> {
-  if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
-    throw new Error("Preço personalizado indisponível: configure SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY no servidor.");
-  }
-  const response = await fetch(`${SUPABASE_URL.replace(/\/+$/, "")}/rest/v1/rpc/assign_order_bump_price`, {
-    method: "POST",
-    headers: {
-      apikey: SUPABASE_SERVICE_ROLE_KEY,
-      Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({ p_visitor_id: visitorId }),
-  });
-  if (!response.ok) {
-    const detail = await response.text().catch(() => "");
-    console.error("Supabase assign_order_bump_price", response.status, detail);
-    throw new Error("Não foi possível definir o preço deste checkout.");
-  }
-  const price = await response.json();
-  if (price !== 590 && price !== 990) throw new Error("O Supabase retornou um preço inválido.");
-  return price;
-}
+const PRECO_ORDER_BUMP = 990;
 
 export const obterPrecoOrderBumps = createServerFn({ method: "POST" })
   .inputValidator((d) => z.object({ visitorId: z.string().uuid() }).parse(d))
-  .handler(async ({ data }) => {
-    try {
-      return { ok: true as const, preco: await obterPrecoBump(data.visitorId) };
-    } catch (error) {
-      console.error("Atribuição do preço dos order bumps:", error);
-      return { ok: false as const, erro: "Não foi possível carregar o preço da oferta. Atualize a página ou tente novamente." };
-    }
-  });
+  .handler(async () => ({ ok: true as const, preco: PRECO_ORDER_BUMP }));
 
 const BASE = "https://api.fruitfy.io";
 
@@ -81,13 +49,7 @@ export const criarPix = createServerFn({ method: "POST" })
     }).parse(d),
   )
   .handler(async ({ data }) => {
-    let precoBump: number;
-    try {
-      precoBump = await obterPrecoBump(data.visitorId);
-    } catch (error) {
-      console.error("Preço do order bump não confirmado:", error);
-      return { ok: false as const, erro: "Não foi possível confirmar o preço dos adicionais. Atualize a página e tente novamente." };
-    }
+    const precoBump = PRECO_ORDER_BUMP;
     const itens = data.mode === "sucupira"
       ? [{ key: "sucupira", fruitfyId: FRUITFY_PRODUCT_ID, preco: 6700 }]
       : itensDoPedido(data.bumps).map((item) =>
