@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import footerHtml from "@/lp/footer.html?raw";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import QRCode from "qrcode";
@@ -158,26 +159,49 @@ function Checkout() {
             {erro && <p className="ck__erro" role="alert">{erro}</p>}
             <button className="ck__btn" disabled={carregando}>{carregando ? "Gerando Pix..." : "COMPRAR AGORA"}</button>
             <section className="ck__depoimentos" aria-labelledby="ck-depo-title">
-              <h2 id="ck-depo-title">Veja o que dizem sobre as massagens</h2>
+              <h2 id="ck-depo-title">Veja o que acontece quando as mãos sabem o que estão fazendo</h2>
               <div className="ck__depo-carousel" aria-live="polite">
-                <article className="ck__depo">
-                  {depoimentoAtivo === 0 ? (
+                {depoimentoAtivo === 0 && (
+                  <article className="ck__depo">
                     <img src="/lp/assets/img/depo-ana-maria.webp" alt="Depoimento de Ana Maria dos Santos Andrade Filha." />
-                  ) : (
+                    <p className="ck__depo-legenda"><strong>Ana Maria dos Santos Andrade Filha</strong>O marido chegava com dor nas pernas e nas costas e hoje fica disposto para trabalhar.</p>
+                  </article>
+                )}
+                {depoimentoAtivo === 1 && (
+                  <article className="ck__depo">
                     <img src="/lp/assets/img/depo-ruthlea.webp" alt="Depoimento de Ruthlea Barbosa dos Santos Sales." />
-                  )}
-                </article>
+                    <p className="ck__depo-legenda"><strong>Ruthlea Barbosa dos Santos Sales</strong>A mãe, com fibromialgia, andou sem bengala depois da massagem.</p>
+                  </article>
+                )}
+                {depoimentoAtivo === 2 && (
+                  <article className="ck__depo ck__depo--relato">
+                    <div className="ck__depo-relato">
+                      <strong>Josiane Gomes Machado</strong>
+                      <p>Eu tenho uma sala de atendimento na minha casa, já trabalhava como terapeuta integrativa e agora já estou tendo minhas primeiras clientes de Massoterapia e estou muito feliz com os resultados. Ontem atendi uma senhora com dores no corpo que quase não conseguiu sair sozinha do carro, veio com a filha, as duas fizeram massagem comigo e a senhorinha saiu andando muito melhor e entrou tranquilamente no carro. Hoje falei com ela pra saber como está e fiquei muito feliz com o resultado, disse que dormiu bem e que as dores diminuíram muito. Fiquei mega feliz. Sou de Canoas, RS.</p>
+                    </div>
+                  </article>
+                )}
+                {depoimentoAtivo === 3 && (
+                  <article className="ck__depo ck__depo--relato">
+                    <div className="ck__depo-relato">
+                      <img className="ck__depo-avatar" src="/lp/assets/img/avatar-betina.webp" alt="" />
+                      <strong>Betina Chaluppe · Massoterapeuta</strong>
+                      <p>Mas meu relato de hoje é sobre o quão fantástico é podermos diminuir a dor de alguém. Fiz um atendimento numa paciente com escoliose, chegou com dor 10 nas costas e nos braços. Quando finalizei a sessão, ela olhou pra mim e disse: nossa, você tirou um peso gigante de mim. A dor está em 2. Esse atendimento mudou o meu dia e me fez perceber que sou capaz de fazer a diferença.</p>
+                    </div>
+                  </article>
+                )}
                 <div className="ck__depo-controles">
-                  <button type="button" className="ck__depo-nav" aria-label="Depoimento anterior" onClick={() => setDepoimentoAtivo((atual) => (atual + 1) % 2)}>‹</button>
-                  <span className="ck__depo-contador">{depoimentoAtivo + 1} / 2</span>
-                  <button type="button" className="ck__depo-nav" aria-label="Próximo depoimento" onClick={() => setDepoimentoAtivo((atual) => (atual + 1) % 2)}>›</button>
+                  <button type="button" className="ck__depo-nav" aria-label="Depoimento anterior" onClick={() => setDepoimentoAtivo((atual) => (atual + 3) % 4)}>‹</button>
+                  <span className="ck__depo-contador">{depoimentoAtivo + 1} / 4</span>
+                  <button type="button" className="ck__depo-nav" aria-label="Próximo depoimento" onClick={() => setDepoimentoAtivo((atual) => (atual + 1) % 4)}>›</button>
                 </div>
-                <p className="ck__depo-nota">Relatos reais publicados na página do Manual.</p>
+                <p className="ck__depo-nota">Depoimentos publicados na página do Manual.</p>
               </div>
             </section>
           </form>
         )}
       </div>
     </main>
+    <div dangerouslySetInnerHTML={{ __html: footerHtml }} />
   );
 }
