@@ -5,6 +5,7 @@ import QRCode from "qrcode";
 import { formatarReais, cpfValido } from "@/lib/checkout-config";
 import { criarPix, statusPix } from "@/lib/fruitfy.functions";
 import imagemSucupira from "@/assets/kit3-sucupira.webp.asset.json";
+import videoDepoimento from "@/assets/depoimento-sucupira.mp4.asset.json";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/upsell-sucupira")({
@@ -159,7 +160,7 @@ function UpsellSucupira() {
                   aria-label="Vídeo de depoimento sobre o produto"
                   onError={() => setDepoimentoIndisponivel(true)}
                 >
-                  <source src="/lp/assets/video/testimonial-6.mp4" type="video/mp4" />
+                  <source src={videoDepoimento.url} type="video/mp4" />
                   Seu navegador não conseguiu carregar este vídeo.
                 </video>
               )}
