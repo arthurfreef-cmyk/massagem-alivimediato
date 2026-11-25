@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import QRCode from "qrcode";
 import { formatarReais, cpfValido } from "@/lib/checkout-config";
 import { criarPix, statusPix } from "@/lib/fruitfy.functions";
-import imagemSucupira from "@/assets/upsell-sucupira.jpg";
+import imagemSucupira from "@/assets/kit3-sucupira.webp.asset.json";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/upsell-sucupira")({
@@ -131,8 +131,8 @@ function UpsellSucupira() {
               Potencialize o alívio das suas dores com o Chá de Sucupira
             </h1>
             <img
-              src={imagemSucupira}
-              alt="Kit de Chá de Sucupira com casca e sementes selecionadas"
+              src={imagemSucupira.url}
+              alt="Kit com 3 potes de Sucupira Composta — 30 cápsulas de 500mg cada"
               width={1024}
               height={1024}
               className="su__imagem"

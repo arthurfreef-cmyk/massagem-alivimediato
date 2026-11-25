@@ -14,6 +14,5 @@
 - [x] Rota /upsell-sucupira criada e concluída no repositório (oferta pós-compra do Chá de Sucupira, R$67 de R$97, Pix via Fruitfy).
 
 ## Bloqueado / aguardando
-- [ ] Substituir o mockup do upsell exatamente por kit3.webp — arquivo não disponível nos anexos atuais.
-- [ ] Publicar o arquivo original testimonial-6.mp4 em public/lp/assets/video/testimonial-6.mp4 para ativar o player já adicionado à página.
+- [ ] Publicar o arquivo original testimonial-6.mp4 em public/lp/assets/video/testimonial-6.mp4 para ativar o player já adicionado à página — usuário precisa enviar o vídeo.
 - [ ] Entrega do acesso por e-mail após o pagamento — depende do fluxo da Fruitfy, não verificado em pagamento real.
