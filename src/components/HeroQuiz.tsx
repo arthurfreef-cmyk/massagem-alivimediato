@@ -84,7 +84,6 @@ export function HeroQuiz() {
           <p className="qz__selo">🏆 Diagnóstico inicial concluído · 100 pts</p>
           <h2 className="qz__pergunta">Seu diagnóstico: {perfil.regiao}</h2>
           <p className="qz__dica">{perfil.resumo}<br />Seu objetivo: {perfil.objetivo.toLowerCase()}.</p>
-          <p className="qz__dica">Esta análise organiza as informações que você forneceu e não identifica doenças nem substitui um diagnóstico médico.</p>
           <div className="qz__borrado">
             <div className="qz__borrado-texto" aria-hidden="true">
               {perfil.detalhes.map((texto) => <p key={texto}>{texto}</p>)}
