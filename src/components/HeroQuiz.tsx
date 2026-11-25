@@ -27,9 +27,10 @@ export function HeroOfferCard() {
           <strong>R$ 27</strong>
         </div>
         <a className="v4-btn hero-oferta__cta" href="#oferta">
-          <span>Continuar sabendo mais</span>
+          <span>VER O QUE ESTÁ INCLUÍDO</span>
           <svg width="20" height="20" aria-hidden="true"><use href="#i-seta" /></svg>
         </a>
+        <a className="hero-oferta__subcta" href="#oferta">Continuar sabendo mais <span aria-hidden="true">→</span></a>
         <p className="hero-oferta__nota">Pagamento via Pix • Acesso digital</p>
       </div>
     </div>
