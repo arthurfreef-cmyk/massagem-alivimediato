@@ -153,6 +153,9 @@ function Checkout() {
                 </span>
               </label>
             ))}
+
+            {erro && <p className="ck__erro" role="alert">{erro}</p>}
+            <button className="ck__btn" disabled={carregando}>{carregando ? "Gerando Pix..." : "COMPRAR AGORA"}</button>
             <section className="ck__depoimentos" aria-labelledby="ck-depo-title">
               <h2 id="ck-depo-title">Quem já conhece o trabalho da Ana conta como foi</h2>
               <article className="ck__depo">
@@ -168,8 +171,6 @@ function Checkout() {
               </article>
               <p className="ck__depo-nota">Depoimentos publicados na página do Manual.</p>
             </section>
-            {erro && <p className="ck__erro" role="alert">{erro}</p>}
-            <button className="ck__btn" disabled={carregando}>{carregando ? "Gerando Pix..." : "COMPRAR AGORA"}</button>
           </form>
         )}
       </div>
