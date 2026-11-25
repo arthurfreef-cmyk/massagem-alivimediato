@@ -84,22 +84,30 @@
 
 
 
-/* Depoimentos abaixo do CTA principal, em tamanho confortável e legível. */
+
+
+/* Carrossel de depoimentos: imagens legíveis e controles visíveis. */
 .ck__depoimentos {
-  margin-top: 22px;
+  display: block;
+  width: 100%;
+  margin-top: 24px;
   padding-top: 20px;
   border-top: 1px solid var(--areia-forte);
 }
 .ck__depoimentos h2 {
-  margin: 0 0 16px;
+  margin: 0 0 14px;
   font-family: var(--serifa);
   font-size: 21px;
   line-height: 1.3;
+  text-align: center;
 }
+.ck__depo-carousel { width: 100%; }
 .ck__depo {
-  display: block;
-  margin: 0 0 18px;
-  padding: 14px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 0;
+  padding: 12px;
   border: 1px solid var(--areia-forte);
   border-radius: var(--raio-sm);
   background: var(--creme);
@@ -107,23 +115,55 @@
 .ck__depo img {
   display: block;
   width: 100%;
-  max-width: 100%;
-  max-height: none;
+  max-width: 560px;
   height: auto;
-  margin: 0 auto 10px;
+  max-height: 620px;
+  margin: 0 auto;
   object-fit: contain;
+  object-position: center;
   border-radius: 8px;
-  background: var(--branco);
+  background: #fff;
 }
-.ck__depo p { margin: 0; font-size: 15px; line-height: 1.55; }
-.ck__depo strong, .ck__depo span { display: block; }
-.ck__depo strong { margin-bottom: 5px; font-size: 15px; }
-.ck__depo--texto { padding: 16px; }
-.ck__depo--texto p { font-size: 15px; }
-.ck__depo-nota { margin: 5px 0 0; color: var(--tinta-suave); font-size: 12px; }
+.ck__depo-controles {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  margin-top: 14px;
+}
+.ck__depo-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 1px solid var(--areia-forte);
+  border-radius: 50%;
+  background: var(--branco);
+  color: var(--tinta);
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+.ck__depo-nav:hover { background: var(--creme); }
+.ck__depo-contador {
+  min-width: 42px;
+  color: var(--tinta-suave);
+  font-size: 14px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.ck__depo-nota {
+  margin: 10px 0 0;
+  color: var(--tinta-suave);
+  font-size: 12px;
+  text-align: center;
+}
 @media (max-width: 640px) {
-  .ck__depoimentos { margin-top: 18px; padding-top: 16px; }
+  .ck__depoimentos { margin-top: 20px; padding-top: 16px; }
   .ck__depoimentos h2 { font-size: 19px; }
-  .ck__depo { padding: 10px; margin-bottom: 14px; }
-  .ck__depo p, .ck__depo--texto p { font-size: 14px; }
+  .ck__depo { padding: 7px; }
+  .ck__depo img { max-height: 560px; }
+  .ck__depo-nav { width: 40px; height: 40px; }
 }
