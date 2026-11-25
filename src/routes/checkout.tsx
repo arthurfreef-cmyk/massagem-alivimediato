@@ -107,6 +107,7 @@ function Checkout() {
   );
 
   return (
+    <>
     <main className="ck">
       <img className="ck__banner" src={BANNER_CHECKOUT.imagem} alt={BANNER_CHECKOUT.alt} width={1024} height={357} />
       <p className="ck__topo">Massagem Alivimediato · Checkout seguro</p>
@@ -203,5 +204,6 @@ function Checkout() {
       </div>
     </main>
     <div dangerouslySetInnerHTML={{ __html: footerHtml }} />
+    </>
   );
 }
