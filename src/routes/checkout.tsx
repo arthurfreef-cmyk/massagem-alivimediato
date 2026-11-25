@@ -37,6 +37,7 @@ function Checkout() {
   const [carregando, setCarregando] = useState(false);
   const [pix, setPix] = useState<{ pix: string; qr: string; id: string | null } | null>(null);
   const [copiado, setCopiado] = useState(false);
+  const [depoimentoAtivo, setDepoimentoAtivo] = useState(0);
   const [pago, setPago] = useState(false);
   const precoBump = 990;
 
@@ -157,19 +158,22 @@ function Checkout() {
             {erro && <p className="ck__erro" role="alert">{erro}</p>}
             <button className="ck__btn" disabled={carregando}>{carregando ? "Gerando Pix..." : "COMPRAR AGORA"}</button>
             <section className="ck__depoimentos" aria-labelledby="ck-depo-title">
-              <h2 id="ck-depo-title">Quem já conhece o trabalho da Ana conta como foi</h2>
-              <article className="ck__depo">
-                <img src="/lp/assets/img/depo-ana-maria.webp" alt="Depoimento enviado por Ana Maria dos Santos Andrade Filha." loading="lazy" />
-                <p><strong>Ana Maria dos Santos Andrade Filha</strong><span>Relato sobre as massagens nas pernas e nas costas do marido.</span></p>
-              </article>
-              <article className="ck__depo">
-                <img src="/lp/assets/img/depo-ruthlea.webp" alt="Mensagem enviada por Ruthlea Barbosa dos Santos Sales." loading="lazy" />
-                <p><strong>Ruthlea Barbosa dos Santos Sales</strong><span>Relato sobre a experiência de massagear os pés e as costas da mãe.</span></p>
-              </article>
-              <article className="ck__depo ck__depo--texto">
-                <p><strong>Betina Chaluppe · Massoterapeuta</strong><span>“Quando finalizei a sessão [...] ela olhou pra mim e disse: nossa, você tirou um peso gigante de mim. A dor está em 2.”</span></p>
-              </article>
-              <p className="ck__depo-nota">Depoimentos publicados na página do Manual.</p>
+              <h2 id="ck-depo-title">Veja o que dizem sobre as massagens</h2>
+              <div className="ck__depo-carousel" aria-live="polite">
+                <article className="ck__depo">
+                  {depoimentoAtivo === 0 ? (
+                    <img src="/lp/assets/img/depo-ana-maria.webp" alt="Depoimento de Ana Maria dos Santos Andrade Filha." />
+                  ) : (
+                    <img src="/lp/assets/img/depo-ruthlea.webp" alt="Depoimento de Ruthlea Barbosa dos Santos Sales." />
+                  )}
+                </article>
+                <div className="ck__depo-controles">
+                  <button type="button" className="ck__depo-nav" aria-label="Depoimento anterior" onClick={() => setDepoimentoAtivo((atual) => (atual + 1) % 2)}>‹</button>
+                  <span className="ck__depo-contador">{depoimentoAtivo + 1} / 2</span>
+                  <button type="button" className="ck__depo-nav" aria-label="Próximo depoimento" onClick={() => setDepoimentoAtivo((atual) => (atual + 1) % 2)}>›</button>
+                </div>
+                <p className="ck__depo-nota">Relatos reais publicados na página do Manual.</p>
+              </div>
             </section>
           </form>
         )}
