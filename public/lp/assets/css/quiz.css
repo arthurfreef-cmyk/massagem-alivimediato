@@ -68,17 +68,21 @@
 }
 
 
-/* CTA secundário do topo: visível, mas sem competir com a oferta principal. */
-.hero-oferta__cta {
-  max-width: 390px;
-  background: #e8f0e9;
-  color: var(--verde);
-  border: 1px solid color-mix(in srgb, var(--verde) 28%, transparent);
-  box-shadow: none;
-  font-size: 15px;
-  padding: 13px 18px;
+/* Link secundário logo abaixo do CTA principal. */
+.hero-oferta__subcta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 9px auto 0;
+  padding: 4px 8px;
+  color: var(--tinta-suave);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--tinta-suave) 45%, transparent);
+  text-underline-offset: 3px;
+  transition: color .2s ease;
 }
-.hero-oferta__cta:hover {
-  background: #dce9df;
-  color: var(--verde);
-}
+.hero-oferta__subcta:hover { color: var(--verde); }
+.hero-oferta__subcta span { font-size: 15px; text-decoration: none; }
