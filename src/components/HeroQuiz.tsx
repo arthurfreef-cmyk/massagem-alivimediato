@@ -12,7 +12,7 @@ export function HeroOfferCard() {
       </div>
       <div className="hero-oferta__conteudo">
         <p className="hero-oferta__selo">Manual digital + 5 bônus</p>
-        <h2>Aprenda a consultar <em>mais de 165 massagens ilustradas</em></h2>
+        <h2>Resolva a dor que incomoda seu dia a dia</h2>
         <p className="hero-oferta__descricao">
           Um guia visual com técnicas para diferentes regiões do corpo, orientações de pressão, tempo e cuidados — para consultar no celular ou imprimir.
         </p>
