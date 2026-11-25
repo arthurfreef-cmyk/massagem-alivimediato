@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import spriteHtml from "@/lp/sprite.html?raw";
 import mainHtml from "@/lp/main.html?raw";
 import footerHtml from "@/lp/footer.html?raw";
-import { HeroQuiz } from "@/components/HeroQuiz";
+import { HeroOfferCard } from "@/components/HeroQuiz";
 
 const title = "Massagem Alivimediato — 165 Massagens Ilustradas para Alívio da Dor";
 const description =
-  "Faça o diagnóstico gratuito e descubra como aliviar dores nas costas, pescoço, pernas e todo o corpo com mais de 165 massagens ilustradas. Por Ana Martha, fisioterapeuta.";
+  "Conheça o Manual com mais de 165 massagens ilustradas e cinco materiais bônus para consultar técnicas de massagem em diferentes regiões do corpo. Por Ana Martha, fisioterapeuta.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -84,7 +84,7 @@ function Index() {
                 </span>
               </p>
             </div>
-            <HeroQuiz />
+            <HeroOfferCard />
             <div className="v4-hero__acao">
               <ul className="v4-oks">
                 <li><span className="v4-ok" aria-hidden="true"><svg width="14" height="14"><use href="#i-check" /></svg></span>Mesmo que você nunca tenha feito massagem</li>
