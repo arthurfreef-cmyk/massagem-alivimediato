@@ -154,7 +154,7 @@ function Checkout() {
               </label>
             ))}
             {erro && <p className="ck__erro" role="alert">{erro}</p>}
-            <button className="ck__btn" disabled={carregando}>{carregando ? "Gerando Pix..." : `Gerar Pix de ${formatarReais(total)}`}</button>
+            <button className="ck__btn" disabled={carregando}>{carregando ? "Gerando Pix..." : "COMPRAR AGORA"}</button>
           </form>
         )}
       </div>
