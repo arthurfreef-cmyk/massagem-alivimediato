@@ -1,43 +1,68 @@
-.qz { width: 100%; max-width: 560px; margin: 8px auto 0; background: var(--branco); border-radius: var(--raio); box-shadow: var(--sombra); padding: 24px 22px; text-align: center; font-family: var(--sans); color: var(--tinta); }
-.qz__topo { display: flex; justify-content: space-between; font-size: 13px; font-weight: 800; color: var(--tinta-suave); margin-bottom: 10px; }
-.qz__pontos { color: var(--verde); background: var(--verde-claro); border-radius: 99px; padding: 2px 10px; }
-.qz__barra { height: 8px; background: var(--areia); border-radius: 99px; overflow: hidden; margin-bottom: 18px; }
-.qz__barra span { display: block; height: 100%; background: var(--mel); border-radius: 99px; transition: width .35s ease; }
-.qz__barra--analise { margin: 18px 0 6px; }
-.qz__pct { font-weight: 800; color: var(--verde); }
-.qz__card, .qz__intro { animation: qzEntra .35s ease; }
-@keyframes qzEntra { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-.qz__selo { display: inline-block; font-size: 12px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: var(--verde); background: var(--verde-claro); border-radius: 99px; padding: 4px 12px; margin-bottom: 12px; }
-.qz__pergunta { font-family: var(--serifa); font-size: clamp(22px, 3vw, 28px); line-height: 1.2; margin: 0 0 6px; color: var(--tinta); }
-.qz__dica { color: var(--tinta-suave); font-size: 15px; margin: 0 0 18px; }
-.qz__opcoes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.qz__opcoes--escala { grid-template-columns: repeat(4, 1fr); }
-.qz__opcao { font: inherit; font-weight: 600; font-size: 15px; color: var(--tinta); background: var(--creme); border: 2px solid var(--areia-forte); border-radius: var(--raio-sm); padding: 14px 10px; cursor: pointer; transition: border-color .15s, background .15s, transform .1s; }
-.qz__opcao:hover { border-color: var(--verde); background: var(--verde-claro); }
-.qz__opcao:active { transform: scale(.97); }
-.qz__voltar { margin-top: 14px; background: none; border: 0; color: var(--tinta-suave); font: inherit; font-size: 14px; cursor: pointer; }
-.qz__btn { width: 100%; border: 0; cursor: pointer; font-family: var(--sans); font-weight: 800; }
-.qz__borrado { position: relative; text-align: left; background: var(--creme); border-radius: var(--raio-sm); padding: 16px; margin: 14px 0 18px; overflow: hidden; }
-.qz__borrado-texto { filter: blur(5px); user-select: none; color: var(--tinta-suave); font-size: 15px; line-height: 1.6; }
-.qz__borrado-texto p { margin: 0 0 10px; }
-.qz__cadeado { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-align: center; padding: 16px; background: color-mix(in srgb, var(--creme) 45%, transparent); }
-.qz__cadeado span { font-size: 28px; }
-.qz__cadeado small { color: var(--tinta-suave); font-size: 13px; }
-.v4-oferta__salvacao { max-width: 620px; margin: -8px auto 28px; text-align: center; color: var(--mata-texto); font-size: 18px; line-height: 1.5; }
-.v4-oferta__salvacao strong { color: var(--mata-realce); }
-@media (max-width: 560px) { .qz { padding: 20px 16px; } .qz__opcoes { grid-template-columns: 1fr; } .qz__opcoes--escala { grid-template-columns: repeat(4, 1fr); } }
-
-/* Seções mais compactas */
-.v4-sec { padding-block: clamp(36px, 5.5vw, 64px); }
-.v4-hero { padding-block: 24px clamp(32px, 5vw, 56px); }
-@media (min-width: 900px) { .v4-hero { padding-top: 36px; } }
-.v4-titulo { margin-bottom: clamp(18px, 2.5vw, 28px); }
-.v4-sec img { content-visibility: auto; }
-
-/* Benefícios na oferta */
-.v4-oferta__beneficios { list-style: none; padding: 0; margin: 0 auto 26px; max-width: 620px; display: grid; gap: 10px; grid-template-columns: 1fr; }
-@media (min-width: 640px) { .v4-oferta__beneficios { grid-template-columns: 1fr 1fr; } }
-.v4-oferta__beneficios li { display: flex; gap: 10px; align-items: flex-start; text-align: left; color: var(--mata-texto); font-size: 15.5px; line-height: 1.45; background: color-mix(in srgb, var(--creme) 6%, transparent); border: 1px solid color-mix(in srgb, var(--creme) 14%, transparent); border-radius: var(--raio-sm); padding: 12px 14px; }
-.v4-oferta__beneficios strong { color: var(--creme); }
-.v4-oferta__beneficios .v4-ok { flex: none; background: var(--mel); color: var(--tinta); }
-@media (max-width: 639px) { .v4-oferta__beneficios { gap: 8px; } .v4-oferta__beneficios li { padding: 9px 12px; font-size: 14.5px; } }
+/* Apresentação direta da oferta no lugar do questionário */
+.hero-oferta {
+  width: min(100%, 620px);
+  margin: 8px auto 0;
+  padding: 18px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  border: 1px solid var(--areia-forte);
+  border-radius: var(--raio);
+  background: var(--branco);
+  box-shadow: var(--sombra);
+  color: var(--tinta);
+  text-align: center;
+}
+.hero-oferta__imagem { width: min(100%, 430px); margin: 0 auto; }
+.hero-oferta__imagem img { display: block; width: 100%; height: auto; object-fit: contain; }
+.hero-oferta__selo {
+  display: inline-block;
+  margin: 2px 0 10px;
+  padding: 5px 11px;
+  border-radius: 99px;
+  background: var(--verde-claro);
+  color: var(--verde);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.hero-oferta__conteudo h2 {
+  max-width: 23ch;
+  margin: 0 auto 9px;
+  font-family: var(--serifa);
+  font-size: clamp(22px, 3vw, 29px);
+  line-height: 1.16;
+}
+.hero-oferta__conteudo h2 em { color: var(--verde); }
+.hero-oferta__descricao {
+  max-width: 43em;
+  margin: 0 auto 14px;
+  color: var(--tinta-suave);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.hero-oferta__lista {
+  display: grid;
+  gap: 8px;
+  max-width: 430px;
+  margin: 0 auto 14px;
+  text-align: left;
+}
+.hero-oferta__lista li { display: flex; gap: 9px; font-size: 14px; line-height: 1.4; }
+.hero-oferta__lista li span { flex: none; color: var(--verde); font-weight: 900; }
+.hero-oferta__preco { display: flex; align-items: baseline; justify-content: center; gap: 10px; margin: 6px 0 12px; }
+.hero-oferta__preco > span { color: var(--tinta-suave); font-size: 13px; font-weight: 700; }
+.hero-oferta__preco del { color: var(--tinta-suave); font-weight: 500; }
+.hero-oferta__preco strong { color: var(--verde); font-size: 36px; line-height: 1; }
+.hero-oferta__cta { width: 100%; max-width: 440px; margin: 0 auto; }
+.hero-oferta__nota { margin: 9px 0 0; color: var(--tinta-suave); font-size: 12px; }
+@media (min-width: 900px) {
+  .hero-oferta { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: center; gap: 20px; padding: 20px; }
+  .hero-oferta__imagem { width: 100%; }
+  .hero-oferta__conteudo h2 { font-size: clamp(23px, 2.3vw, 30px); }
+}
+@media (max-width: 480px) {
+  .hero-oferta { padding: 14px; }
+  .hero-oferta__preco { flex-wrap: wrap; gap: 6px; }
+}
